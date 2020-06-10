@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spring：源码解析 | Somuns ` Tao</title><meta name="description" content="Spring"><meta name="keywords" content="Spring"><meta name="author" content="chentao"><meta name="copyright" content="chentao"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Spring：源码解析"><meta name="twitter:description" content="Spring"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Spring：源码解析"><meta property="og:url" content="https://somunstao.github.io/2020/03/30/Spring%2012%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%20%E5%89%AF%E6%9C%AC/"><meta property="og:site_name" content="Somuns ` Tao"><meta property="og:description" content="Spring"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-03-29T16:00:00.000Z"><meta property="article:modified_time" content="2020-06-09T14:55:41.144Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://somunstao.github.io/2020/03/30/Spring%2012%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%20%E5%89%AF%E6%9C%AC/"><link rel="prev" title="SpringBoot：启动原理解析" href="https://somunstao.github.io/2020/05/03/SpringBoot21%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/"><link rel="next" title="SpringBoot：小总结" href="https://somunstao.github.io/2020/03/30/SpringBoot20%EF%BC%9A%E5%B0%8F%E6%80%BB%E7%BB%93/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: true,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Somuns ` Tao" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">64</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring：源码解析"><span class="toc-number">1.</span> <span class="toc-text">Spring：源码解析</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Somuns ` Tao</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Spring：源码解析</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-03-30 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-03-30</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-06-09 22:55:41"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-06-09</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Spring/">Spring</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Spring：源码解析"><a href="#Spring：源码解析" class="headerlink" title="Spring：源码解析"></a><strong>Spring：源码解析</strong></h1><p>优秀的源码中有着多年沉积下来的精华，这些精华是非常值得我们学习的。放弃阅读源码，你将失去一个和大师学习的机会。</p>
+<p>用Spring框架做了几年的开发，只停留在会用的阶段上，然而Spring的设计思想和原理确实一个巨大的宝库。大部分人仅仅知道怎么去配，或着加上什么属性就能达到什么效果，这些东西都可以通过查文档，查google来解决。关键是在怎么理解它，把它的思想变为自己的东西。这几天没有学习(装逼)，感觉心里甚是空虚，索性研究了下一直很好奇的Spring大佬,毕竟写代码天天都在用。</p>
+<p>前方高能，非战斗人员迅速投入战斗:</p>
+<ol>
+<li>Spring IOC容器</li>
+<li>ApplicationContext与BeanFactory探究.</li>
+<li>bean的加载</li>
+<li>FactoryBean</li>
+<li>Spring AOP实现原理及实战</li>
+</ol>
+<p>文章篇幅有限，只对Spring几个重要的知识点进行简单阐述，有兴趣的可以看看《Spring源码深度解析》，该书下载地址：<a href="https://pan.baidu.com/s/1jGxdGTg，本文也是基于该书总结出来的。" target="_blank" rel="noopener">https://pan.baidu.com/s/1jGxdGTg，本文也是基于该书总结出来的。</a></p>
+<p>1.Spring IOC容器</p>
+<p>很多人一提IOC，便张口就来：控制反转。究竟哪些方面被反转了呢？答案是依赖对象的获得被反转了。很多时候，我们通过多个对象之间的协作来完成一个功能，如果获取所依赖对象靠自身来实现，这将导致代码的耦合度高和难以测试。当然,控制反转还有一个好听的名字:依赖注入。</p>
+<p>Spring IOC通过引入xml配置，由IOC容器来管理对象的生命周期,依赖关系等。</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180508/c79a9018721948f3a6e6eeb358ac8ee3.png" alt="img"></p>
+<p>从图中可以看出，我们以前获取两个有依赖关系的对象，要用set方法，而用容器之后，它们之间的关系就由容器来管理。那么，Spring容器的加载过程是什么样的呢?</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180508/dfa81c829b234c5584ffd09899dd1250.png" alt="img"></p>
+<p>BeanDefinition是一个接口，用于属性承载，比如<bean>元素标签拥有class、scope、lazy-init等配置。bean的定义方式有千千万万种，无论是何种标签，无论是何种资源定义，无论是何种容器，只要按照Spring的规范编写xml配置文件，最终的bean定义内部表示都将转换为内部的唯一结构：BeanDefinition。当BeanDefinition注册完毕以后，Spring的BeanFactory就可以随时根据需要进行实例化了。</p>
+<p>2.ApplicationContext与BeanFactory探究</p>
+<p>实例化的工作会在容器启动后过AbstractApplicationContext中reflash方法自动进行。我们常用的ApplicationContext实现类ClassPathXmlApplicationContext继承了AbstractApplicationContext类，继承关系如下图.</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180508/345d95a6fce6447d8823bac6ae14f7c0.png" alt="img"></p>
+<p>AbstractApplicationContext里的reflash方法是Spring初始IOC容器一个非常重要的方法，不管你是ApplicationContext哪个实现类，最终都会进入这个方法。</p>
+<p>@Override</p>
+<p>publicvoidrefresh()throwsBeansException, IllegalStateException{</p>
+<p>synchronized( this.startupShutdownMonitor) {</p>
+<p>// 设置和校验系统变量和环境变量的值</p>
+<p>prepareRefresh();</p>
+<p>//主要是创建beanFactory，同时加载配置文件.xml中的beanDefinition</p>
+<p>//通过String[] configLocations = getConfigLocations()获取资源路径，然后加载beanDefinition</p>
+<p>ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</p>
+<p>//给beanFactory注册一些标准组建，如ClassLoader，StandardEnvironment，BeanProcess</p>
+<p>prepareBeanFactory(beanFactory);</p>
+<p>try{</p>
+<p>//提供给子类实现一些postProcess的注册，如AbstractRefreshableWebApplicationContext注册一些Servlet相关的</p>
+<p>//postProcess，真对web进行生命周期管理的Scope，通过registerResolvableDependency()方法注册指定ServletRequest，HttpSession，WebRequest对象的工厂方法</p>
+<p>postProcessBeanFactory(beanFactory);</p>
+<p>//调用所有BeanFactoryProcessor的postProcessBeanFactory()方法</p>
+<p>invokeBeanFactoryPostProcessors(beanFactory);</p>
+<p>//注册BeanPostProcessor，BeanPostProcessor作用是用于拦截Bean的创建</p>
+<p>registerBeanPostProcessors(beanFactory);</p>
+<p>//初始化消息Bean</p>
+<p>initMessageSource();</p>
+<p>//初始化上下文的事件多播组建，ApplicationEvent触发时由multicaster通知给ApplicationListener</p>
+<p>initApplicationEventMulticaster();</p>
+<p>//ApplicationContext初始化一些特殊的bean</p>
+<p>onRefresh();</p>
+<p>//注册事件监听器，事件监听Bean统一注册到multicaster里头，ApplicationEvent事件触发后会由multicaster广播</p>
+<p>registerListeners();</p>
+<p>//非延迟加载的单例Bean实例化</p>
+<p>finishBeanFactoryInitialization(beanFactory);</p>
+<p>finishRefresh();</p>
+<p>}</p>
+<p>catch(BeansException ex) {</p>
+<p>logger.warn( “Exception encountered during context initialization - cancelling refresh attempt”, ex);</p>
+<p>destroyBeans();</p>
+<p>cancelRefresh(ex);</p>
+<p>throwex;</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+<p>代码逻辑清晰的值得mark一下。这个方法的作用是创建加载Spring容器配置（包括.xml配置，property文件和数据库模式等）。</p>
+<p>BeanFactory体系结构是典型的工厂方法模式，即什么样的工厂生产什么样的产品。要知道工厂是如何产生对象的，我们需要看具体的IOC容器实现，具体的实现有：如 DefaultListableBeanFactory 、 XmlBeanFactory 、 ApplicationContext 等。那么，究竟BeanFactory里到底是什么样的呢？</p>
+<p>packageorg.springframework.beans.factory;</p>
+<p>publicinterfaceBeanFactory{</p>
+<p>/**</p>
+<p>* 用来引用一个实例，或把它和工厂产生的Bean区分开，就是说，如果一个FactoryBean的名字为a，那么，&amp;a会得到那个Factory</p>
+<p>*/</p>
+<p>String FACTORY_BEAN_PREFIX = “&amp;”;</p>
+<p>/*</p>
+<p>* 四个不同形式的getBean方法，获取实例</p>
+<p>*/</p>
+<p>ObjectgetBean(String name)throwsBeansException;</p>
+<p><T> TgetBean(String name, Class<T> requiredType)throwsBeansException;</p>
+<p><T> TgetBean(Class<T> requiredType)throwsBeansException;</p>
+<p>ObjectgetBean(String name, Object… args)throwsBeansException;</p>
+<p>booleancontainsBean(String name); // 是否存在</p>
+<p>booleanisSingleton(String name)throwsNoSuchBeanDefinitionException; // 是否为单实例</p>
+<p>booleanisPrototype(String name)throwsNoSuchBeanDefinitionException; // 是否为原型（多实例）</p>
+<p>booleanisTypeMatch(String name, Class&lt;?&gt; targetType)</p>
+<p>throwsNoSuchBeanDefinitionException; // 名称、类型是否匹配</p>
+<p>Class&lt;?&gt; getType(String name) throwsNoSuchBeanDefinitionException; // 获取类型</p>
+<p>String[] getAliases(String name); // 根据实例的名字获取实例的别名</p>
+<p>}</p>
+<p>我们可以看出BeanFactory里只对IOC容器的基本行为作了定义，根本不关心你的bean是如何定义怎样加载的，它规定了所有的容器至少需要实现的标准。说到实现，BeanFactory有几个比较重要的实现类需要知道，ref：【Spring4揭秘 BeanFactory】基本容器-BeanFactory：<a href="https://blog.csdn.net/u011179993/article/details/51636742。那么BeanFactory的基本实现类XmlBeanFactory与我们常用的ApplicationContext有什么区别呢?答案是bean的加载。" target="_blank" rel="noopener">https://blog.csdn.net/u011179993/article/details/51636742。那么BeanFactory的基本实现类XmlBeanFactory与我们常用的ApplicationContext有什么区别呢?答案是bean的加载。</a></p>
+<p>3.bean的加载</p>
+<p>我们先看一道面试经常会问到的问题:<strong>Spring的bean在什么时候实例化?</strong>——第一：如果你使用BeanFactory，如XmlBeanFactory作为Spring Bean的工厂类，则所有的bean都是在第一次使用该bean的时候实例化 。第二：如果你使用ApplicationContext作为Spring Bean的工厂类，则又分为以下几种情况：</p>
+<ol>
+<li>如果bean的scope是singleton的，并且lazy-init为false（默认是false，所以可以不用设置），则ApplicationContext启动的时候就实例化该bean，并且将实例化的bean放在一个线程安全的 ConcurrentHashMap 结构的缓存中，下次再使用该Bean的时候，直接从这个缓存中取 。</li>
+<li>如果bean的scope是singleton的，并且lazy-init为true，则该bean的实例化是在第一次使用该bean的时候进行实例化 。</li>
+<li>如果bean的scope是prototype的，则该bean的实例化是在第一次使用该Bean的时候进行实例化 。</li>
+</ol>
+<p>ClassPathXmlApplicationContext有几个重载的构造函数最终都会调用父类AbstractApplicationContext的reflash方法，reflash方法在前文有介绍，作用是创建加载Spring容器配置。AbstractApplicationContext也有getBean方法：</p>
+<p>AbstractApplicationContext下的代码：</p>
+<p>publicObjectgetBean( Stringname) throws BeansException {</p>
+<p>//Bean的获取外部容器交给了内部容器</p>
+<p>returngetBeanFactory().getBean(name);</p>
+<p>}</p>
+<p>内部容器由DefaultListableBeanFactory承当，但真实的getBean方法实现是由其父类AbstractBeanFactory实现的，AbstractBeanFactory类同样实现了BeanFactory接口的方法，它有四个重载的getBean方法，不管哪一个都会去调用doGetBean方法：</p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180508/fb9021a0e35f4c639606d43903c4a182.jpeg" alt="img"></p>
+<p><img src="http://5b0988e595225.cdn.sohucs.com/images/20180508/cb5912600cee482ba9767ebdd66e721d.png" alt="img"></p>
+<p>那么doGetBean里干了什么事情呢？</p>
+<p>protected<T> T doGetBean(</p>
+<p>final Stringname, final Class<T> requiredType, final Object[] args, booleantypeCheckOnly)</p>
+<p>throws BeansException {</p>
+<p>//bean name处理，去除FactoryBean前缀等</p>
+<p>final StringbeanName = transformedBeanName(name);</p>
+<p>Objectbean = null;</p>
+<p>//先从singleton缓存中查看是否已经实例化过该Bean，根据是否有缓存分为两个分支分别处理</p>
+<p>ObjectsharedInstance = getSingleton(beanName);</p>
+<p>if(sharedInstance != null&amp;&amp; args == null) {</p>
+<p>// 分支一，若缓存中获取到了并且该BeanDefinition信息表明该bean是singleton的，直接将获取到的缓存Bean</p>
+<p>//(有可能是半成品)交给getObjectForBeanInstance处理</p>
+<p>/<em>………省略logger部分代码…………</em>/</p>
+<p>//调用getObjectForBeanInstance处理</p>
+<p>bean = getObjectForBeanInstance(sharedInstance, name, beanName, null);</p>
+<p>} else{</p>
+<p>// 分之二：没有缓存，则需要从头实例化该bean</p>
+<p>// We’re assumably within a circular reference.</p>
+<p>if(isPrototypeCurrentlyInCreation(beanName)) {</p>
+<p>thrownewBeanCurrentlyInCreationException(beanName);}</p>
+<p>// 检查BeanDefinition是否在当前工厂或父工厂</p>
+<p>BeanFactory parentBeanFactory = getParentBeanFactory();</p>
+<p>if(parentBeanFactory != null&amp;&amp; !containsBeanDefinition(beanName)) {</p>
+<p>// Not found -&gt; check parent.</p>
+<p>StringnameToLookup = originalBeanName(name);</p>
+<p>if(args != null) {</p>
+<p>// 父工厂getBean</p>
+<p>returnparentBeanFactory.getBean(nameToLookup, args);</p>
+<p>}</p>
+<p>else{</p>
+<p>// No args -&gt; delegate to standard getBean method.</p>
+<p>returnparentBeanFactory.getBean(nameToLookup, requiredType);</p>
+<p>}</p>
+<p>}</p>
+<p>//将bean加入“正在创建”的集合，完成后会remove,对应afterSingletonCreation/afterPrototypeCreation方法</p>
+<p>if(!typeCheckOnly) {</p>
+<p>markBeanAsCreated(beanName);</p>
+<p>}</p>
+<p>final RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);</p>
+<p>checkMergedBeanDefinition(mbd, beanName, args);</p>
+<p>// 解决依赖关系，将依赖的bean提前实例化</p>
+<p>String[] dependsOn = mbd.getDependsOn();</p>
+<p>if(dependsOn != null) {</p>
+<p>for(int i = 0; i &lt; dependsOn.length; i++) {</p>
+<p>StringdependsOnBean = dependsOn[i];</p>
+<p>getBean(dependsOnBean);</p>
+<p>registerDependentBean(dependsOnBean, beanName);</p>
+<p>}</p>
+<p>}</p>
+<p>// 这里又需要根据bean的类型分为三种情况：singleton、prototype、request/session</p>
+<p>if(mbd.isSingleton()) {</p>
+<p>//通过自定义ObjectFactory实例化Bean，此结果可能是半成品(是FactoryBean等)</p>
+<p>sharedInstance = getSingleton(beanName, newObjectFactory() {</p>
+<p>publicObjectgetObject() throws BeansException {</p>
+<p>try{</p>
+<p>//真正实例化装配的逻辑在createBean方法中</p>
+<p>returncreateBean(beanName, mbd, args);</p>
+<p>}</p>
+<p>catch(BeansException ex) {</p>
+<p>destroySingleton(beanName);</p>
+<p>throwex;</p>
+<p>}</p>
+<p>}</p>
+<p>});</p>
+<p>//上一步半成品的Bean交给getObjectForBeanInstance方法处理</p>
+<p>bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);</p>
+<p>}</p>
+<p>elseif(mbd.isPrototype()) {</p>
+<p>ObjectprototypeInstance = null;</p>
+<p>try{</p>
+<p>beforePrototypeCreation(beanName);</p>
+<p>//真正实例化装配的逻辑在createBean方法中</p>
+<p>prototypeInstance = createBean(beanName, mbd, args);</p>
+<p>}</p>
+<p>finally{</p>
+<p>afterPrototypeCreation(beanName);</p>
+<p>}</p>
+<p>//上一步半成品的Bean交给getObjectForBeanInstance方法处理</p>
+<p>bean = getObjectForBeanInstance(prototypeInstance, name, beanName, mbd);</p>
+<p>}</p>
+<p>else{</p>
+<p>//request、session 的bean</p>
+<p>StringscopeName = mbd.getScope();</p>
+<p>final Scope scope = (Scope) this.scopes.get(scopeName);</p>
+<p>if(scope == null) {</p>
+<p>thrownewIllegalStateException( “No Scope registered for scope ‘“+ scopeName + “‘“);</p>
+<p>}</p>
+<p>try{</p>
+<p>ObjectscopedInstance = scope.get(beanName, newObjectFactory() {</p>
+<p>publicObjectgetObject() throws BeansException {</p>
+<p>beforePrototypeCreation(beanName);</p>
+<p>try{</p>
+<p>//真正实例化装配的逻辑在createBean方法中</p>
+<p>returncreateBean(beanName, mbd, args);</p>
+<p>}</p>
+<p>finally{</p>
+<p>afterPrototypeCreation(beanName);</p>
+<p>}</p>
+<p>}</p>
+<p>});</p>
+<p>//上一步半成品的Bean交给getObjectForBeanInstance方法处理</p>
+<p>bean = getObjectForBeanInstance(scopedInstance, name, beanName, mbd);</p>
+<p>}</p>
+<p>catch(IllegalStateException ex) {</p>
+<p>thrownewBeanCreationException(beanName,</p>
+<p>“Scope ‘“+ scopeName + “‘ is not active for the current thread; “+</p>
+<p>“consider defining a scoped proxy for this bean if you intend to refer to it from a singleton”,</p>
+<p>ex);</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+<p>if(requiredType != null&amp;&amp; bean != null&amp;&amp;</p>
+<p>!requiredType.isAssignableFrom(bean.getClass())) {</p>
+<p>thrownewBeanNotOfRequiredTypeException(name, requiredType, bean.getClass());</p>
+<p>}</p>
+<p>returnbean;</p>
+<p>}</p>
+<p>bean的加载经历了一个复杂的过程，上面代码主要做了以下几件事(此段摘抄自《Spring源码深度解析》)：</p>
+<p>1.转换对应的beanName。如果name=“&amp;aa”的，会去除&amp;符号。或者<bean>标签带有alias（别名的意思），则取alias所表示最终的beanName。</p>
+<p>2.尝试从缓存中加载单例bean。如果加载不成功，会再次尝试从singletonFactories中加载。</p>
+<p>3.bean的实例化。假如我们需要对工厂bean进行处理，那么这里得到的其实是工厂bean 的初始状态。真正干活的则是getObjectForBeanInstance定义factory-method方法返回的bean。</p>
+<p>4.原型模式的依赖检查。如果A类有B的属性，B中有A的属性，则会产生循环依赖。参考：spring如何解决循环依赖问题<a href="http://www.cnblogs.com/bhlsheji/p/5208076.html" target="_blank" rel="noopener">http://www.cnblogs.com/bhlsheji/p/5208076.html</a></p>
+<p>5.将存储的Xml配置文件的GernericBeanDefinition转换为RootBeanDefinition。前文提到的用于承载属性的BeanDefinition有三个实现，GernericBeanDefinition，RootBeanDefinition和ChildBeanDefinition，如果父类bean不为空的话，这里会把所有的属性一并合并父类属性，因为后续所有的Bean都是针对RootBeanDefinition的。</p>
+<p>6.寻找依赖。在初始化一个bean的时候，会首先初始化这个bean所对应的依赖。</p>
+<p>7.根据不同的scope创建bean。scope属性默认是singleton，还有prototype、request等。</p>
+<p>8.类型转换。如果bean是个String，而requiredType传入了Integer，然后返回bean，加载结束。</p>
+<p>其中,最重要的步骤是(7),spring的常用特性都在那里实现.</p>
+<p>4.FactoryBean</p>
+<p>首先要分辨BeanFactory 与 FactoryBean的区别， 两个名字很像，所以容易搞混。这里做一个简单的比喻你就明白了：</p>
+<p>1.FactoryBean：工厂类接口，用户可以通过实现该接口定制实例化 bean的逻辑。我们把bean比作是人，那么FactoryBean则是女娲，首先它本身有人的特征，但它能够生产人。</p>
+<p>2.BeanFactory ：BeanFactory定义了 IOC 容器的最基本形式。如果bean还比作是人，那么它可以理解成三界，三界里有各种功能的人，它是一个容器，可以管理很多的人。</p>
+<p>FactoryBean里干了什么事情？</p>
+<p>publicinterfaceFactoryBean<T>{</p>
+<p>//返回由FactoryBean创建的Bean实例,如果isSingleton返回true,则该实例会放到spring容器中单例缓存池中.</p>
+<p>TgetObject()throwsException;</p>
+<p>//返回FactoryBean创建的bean类型.</p>
+<p>Class&lt;?&gt; getObjectType();</p>
+<p>//返回由FactoryBean创建的bean实例的作用域是singleton还是prototype</p>
+<p>booleanisSingleton();</p>
+<p>}</p>
+<p>它的作用不在这里做阐述，ref：Spring的FactoryBean使用<a href="http://www.cnblogs.com/quanyongan/p/4133724.html" target="_blank" rel="noopener">http://www.cnblogs.com/quanyongan/p/4133724.html</a></p>
+<p>写到这里，总结一下阅读Spring源码的心得:</p>
+<p>1.学习Spring思想和编码规范。Spring的很多函数代码量大，逻辑复杂,而Spring的编码风格就是将复杂的逻辑分解，分成N个小函数的嵌套，每一层都是对下一层的总结和概要。在工作中最佩服的一个大神说过：学习Spring源码思想为我所用，哪怕是一天学习一个变量名，他在工作中设计很多小组件的时候都是基于Spring思想和规范。他说，不要迷茫学什么技术，其实每天只要进步一点点就好，突破的是自己，而不是某个领域。用10年其实才敢说入门一门技术。</p>
+<p>2.跟了Spring代码的函数，你会或多或少发现一些规律：一个真正干活的函数其实是以do开头的，如doGetBean，而给我们错觉的函数，如getBean和createBean等等方法，其实只是从全局角度做一些统筹工作。</p>
+<p>3.放弃阅读源码是一个不明智的选择，因为你失去了跟大师学习的机会。当你硬着头皮读完一个框架的源码，则其他框架都是相通的。</p>
+<p>4.下一篇文章：Spring AOP是什么?你都拿它做什么?因为篇幅有限，AOP又是一个重要且内容比较多的部分，所以打算单独拿出来搞事情。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">chentao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://somunstao.github.io/2020/03/30/Spring%2012%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90-%20%E5%89%AF%E6%9C%AC/">https://somunstao.github.io/2020/03/30/Spring 12源码解析- 副本/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://SomunsTao.github.io" target="_blank">Somuns ` Tao</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring/">Spring</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/05/03/SpringBoot21%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpringBoot：启动原理解析</div></div></a></div><div class="next-post pull_right"><a href="/2020/03/30/SpringBoot20%EF%BC%9A%E5%B0%8F%E6%80%BB%E7%BB%93/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SpringBoot：小总结</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/03/11/Spring 01：概述、IOC理论/" title="Spring 01：概述、IOC理论"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-11</div><div class="relatedPosts_title">Spring 01：概述、IOC理论</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/12/Spring 02：第一个程序、对象创建方式、配置说明/" title="Spring 02：第一个程序、对象创建方式、配置说明.（DI）"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-12</div><div class="relatedPosts_title">Spring 02：第一个程序、对象创建方式、配置说明.（DI）</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/13/Spring 03：依赖注入（DI）/" title="Spring 03：依赖注入（DI）"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-13</div><div class="relatedPosts_title">Spring 03：依赖注入（DI）</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/14/Spring 04：自动装配/" title="Spring 04：自动装配"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-14</div><div class="relatedPosts_title">Spring 04：自动装配</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/15/Spring 05：注解开发/" title="Spring 05：注解开发"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-15</div><div class="relatedPosts_title">Spring 05：注解开发</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/16/Spring 06：代理模式/" title="Spring 06：代理模式"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-16</div><div class="relatedPosts_title">Spring 06：代理模式</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="lv-container" data-id="city" data-uid="MTAyMC80OTk1Ni8yNjQ0Nw=="><script>(function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By chentao</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">簡</a><i class="darkmode far fa-moon" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script defer id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/click_heart.js"></script></body></html>
