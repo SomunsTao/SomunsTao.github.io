@@ -1,0 +1,19 @@
+class:
+  class_name: 友情鏈接
+  link_list:
+    1:
+      name: 狂神
+      link: http://mp.weixin.qq.com/mp/homepage?__biz=Mzg2NTAzMTExNg==&hid=1&sn=3247dca1433a891523d9e4176c90c499&scene=18#wechat_redirect
+      avatar: https://www.sohu.com/a/119669035_502831
+      descr: java
+    2:
+      name: 狂神springboot
+      link: https://www.cnblogs.com/hellokuangshen/tag/SpringBoot%E7%B3%BB%E5%88%97/
+      avatar: https://www.sohu.com/a/119669035_502831
+      descr: java  
+    3:
+      name: java学习笔记
+      link: https://cloudlandboy.github.io/myNote/#/
+      avatar: https://www.sohu.com/a/119669035_502831
+      descr: java  
+ 
