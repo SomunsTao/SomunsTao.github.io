@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>springboot01：springboot快速认识 | Somuns ` Tao</title><meta name="description" content="you can &quot;just run&quot;"><meta name="keywords" content="spring"><meta name="author" content="chentao"><meta name="copyright" content="chentao"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="springboot01：springboot快速认识"><meta name="twitter:description" content="you can &quot;just run&quot;"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="springboot01：springboot快速认识"><meta property="og:url" content="https://somunstao.github.io/2020/03/01/springboot01%EF%BC%9A%E5%BF%AB%E9%80%9F%E8%AE%A4%E8%AF%86/"><meta property="og:site_name" content="Somuns ` Tao"><meta property="og:description" content="you can &quot;just run&quot;"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-03-01T00:08:08.000Z"><meta property="article:modified_time" content="2020-04-02T13:22:52.513Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://somunstao.github.io/2020/03/01/springboot01%EF%BC%9A%E5%BF%AB%E9%80%9F%E8%AE%A4%E8%AF%86/"><link rel="prev" title="SpringBoot02：运行原理初探" href="https://somunstao.github.io/2020/03/02/SpringBoot02%EF%BC%9A%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86%E5%88%9D%E6%8E%A2/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: true,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Somuns ` Tao" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">43</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">7</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是Spring"><span class="toc-number">1.</span> <span class="toc-text">什么是Spring</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring是如何简化Java开发的"><span class="toc-number">2.</span> <span class="toc-text">Spring是如何简化Java开发的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是SpringBoot"><span class="toc-number">3.</span> <span class="toc-text">什么是SpringBoot</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#微服务"><span class="toc-number"></span> <span class="toc-text">微服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是微服务？"><span class="toc-number">1.</span> <span class="toc-text">什么是微服务？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单体应用架构"><span class="toc-number">2.</span> <span class="toc-text">单体应用架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#微服务架构"><span class="toc-number">3.</span> <span class="toc-text">微服务架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何构建微服务"><span class="toc-number">4.</span> <span class="toc-text">如何构建微服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HelloWorld"><span class="toc-number"></span> <span class="toc-text">HelloWorld</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建基础项目"><span class="toc-number">1.</span> <span class="toc-text">创建基础项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#项目结构分析"><span class="toc-number">2.</span> <span class="toc-text">项目结构分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pom-xml-分析"><span class="toc-number">3.</span> <span class="toc-text">pom.xml 分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写HTTP接口"><span class="toc-number">4.</span> <span class="toc-text">编写HTTP接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-number">5.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#彩蛋"><span class="toc-number">6.</span> <span class="toc-text">彩蛋</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用IDEA快速构建项目"><span class="toc-number">7.</span> <span class="toc-text">使用IDEA快速构建项目</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行原理探究"><span class="toc-number"></span> <span class="toc-text">运行原理探究</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pom-xml"><span class="toc-number">1.</span> <span class="toc-text">pom.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动器"><span class="toc-number">2.</span> <span class="toc-text">启动器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主程序"><span class="toc-number">3.</span> <span class="toc-text">主程序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、-SpringBootApplication"><span class="toc-number">3.1.</span> <span class="toc-text">1、@SpringBootApplication</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、-ComponentScan"><span class="toc-number">3.2.</span> <span class="toc-text">2、@ComponentScan</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、-SpringBootConfiguration"><span class="toc-number">3.3.</span> <span class="toc-text">3、@SpringBootConfiguration</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、-EnableAutoConfiguration"><span class="toc-number">3.4.</span> <span class="toc-text">4、@EnableAutoConfiguration</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run"><span class="toc-number">4.</span> <span class="toc-text">Run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringApplication"><span class="toc-number">5.</span> <span class="toc-text">SpringApplication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run方法"><span class="toc-number">6.</span> <span class="toc-text">run方法</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Somuns ` Tao</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">springboot01：springboot快速认识</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-03-01 08:08:08"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-03-01</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-04-02 21:22:52"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-04-02</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/SpringBoot/">SpringBoot</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h3 id="什么是Spring"><a href="#什么是Spring" class="headerlink" title="什么是Spring"></a>什么是Spring</h3><p>Spring是一个开源框架，2003 年兴起的一个轻量级的Java 开发框架，作者：Rod Johnson 。</p>
+<p><strong>Spring是为了解决企业级应用开发的复杂性而创建的，简化开发。</strong></p>
+<h3 id="Spring是如何简化Java开发的"><a href="#Spring是如何简化Java开发的" class="headerlink" title="Spring是如何简化Java开发的"></a>Spring是如何简化Java开发的</h3><p>为了降低Java开发的复杂性，Spring采用了以下4种关键策略：</p>
+<p>1、基于POJO的轻量级和最小侵入性编程；</p>
+<p>2、通过IOC，依赖注入（DI）和面向接口实现松耦合；</p>
+<p>3、基于切面（AOP）和惯例进行声明式编程；</p>
+<p>4、通过切面和模版减少样式代码；</p>
+<h3 id="什么是SpringBoot"><a href="#什么是SpringBoot" class="headerlink" title="什么是SpringBoot"></a>什么是SpringBoot</h3><p>学过javaweb的同学就知道，开发一个web应用，从最初开始接触Servlet结合Tomcat, 跑出一个Hello Wolrld程序，是要经历特别多的步骤； 后来就用了框架Struts，再后来是SpringMVC，到了现在的SpringBoot，过一两年又会有其他web框架出现；不知道你们有没经历过框架不断的演进，然后自己开发项目所有的技术也再不断的变化、改造，反正我是都经历过了，哈哈。言归正传，什么是SpringBoot呢，就是一个javaweb的开发框架，和SpringMVC类似，对比其他javaweb框架的好处，官方说是简化开发，约定大于配置， you can “just run”，能迅速的开发web应用，几行代码开发一个http接口。</p>
+<p>所有的技术框架的发展似乎都遵循了一条主线规律：从一个复杂应用场景 衍生 一种规范框架，人们只需要进行各种配置而不需要自己去实现它，这时候强大的配置功能成了优点；发展到一定程度之后，人们根据实际生产应用情况，选取其中实用功能和设计精华，重构出一些轻量级的框架；之后为了提高开发效率，嫌弃原先的各类配置过于麻烦，于是开始提倡“约定大于配置”，进而衍生出一些一站式的解决方案。</p>
+<p>是的这就是Java企业级应用-&gt;J2EE-&gt;spring-&gt;springboot的过程。</p>
+<p>随着 Spring 不断的发展，涉及的领域越来越多，项目整合开发需要配合各种各样的文件，慢慢变得不那么易用简单，违背了最初的理念，甚至人称配置地狱。Spring Boot 正是在这样的一个背景下被抽象出来的开发框架，目的为了让大家更容易的使用 Spring 、更容易的集成各种常用的中间件、开源软件；</p>
+<p>Spring Boot 基于 Spring 开发，Spirng Boot 本身并不提供 Spring 框架的核心特性以及扩展功能，只是用于快速、敏捷地开发新一代基于 Spring 框架的应用程序。也就是说，它并不是用来替代 Spring 的解决方案，而是和 Spring 框架紧密结合用于提升 Spring 开发者体验的工具。Spring Boot 以<strong>约定大于配置的核心思想</strong>，默认帮我们进行了很多设置，多数 Spring Boot 应用只需要很少的 Spring 配置。同时它集成了大量常用的第三方库配置（例如 Redis、MongoDB、Jpa、RabbitMQ、Quartz 等等），Spring Boot 应用中这些第三方库几乎可以零配置的开箱即用，</p>
+<p>简单来说就是SpringBoot其实不是什么新的框架，它默认配置了很多框架的使用方式，就像maven整合了所有的jar包，spring boot整合了所有的框架 。</p>
+<p>Spring Boot 出生名门，从一开始就站在一个比较高的起点，又经过这几年的发展，生态足够完善，Spring Boot 已经当之无愧成为 Java 领域最热门的技术。</p>
+<p><strong>Spring Boot的主要优点：</strong></p>
+<ul>
+<li>为所有Spring开发者更快的入门</li>
+<li><strong>开箱即用</strong>，提供各种默认配置来简化项目配置</li>
+<li>内嵌式容器简化Web项目</li>
+<li>没有冗余代码生成和XML配置的要求</li>
+</ul>
+<p>使用 Spring Boot 到底有多爽，用下面这幅图来表达</p>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/3278965235.png" alt="1569859952418.png"></p>
+<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h3 id="什么是微服务？"><a href="#什么是微服务？" class="headerlink" title="什么是微服务？"></a>什么是微服务？</h3><p>微服务是一种架构风格，它要求我们在开发一个应用的时候，这个应用必须构建成一系列小服务的组合；可以通过http的方式进行互通。要说微服务架构，先得说说过去我们的单体应用架构。</p>
+<h3 id="单体应用架构"><a href="#单体应用架构" class="headerlink" title="单体应用架构"></a>单体应用架构</h3><p>所谓单体应用架构（all in one）是指，我们将一个应用的中的所有应用服务都封装在一个应用中。</p>
+<p>无论是ERP、CRM或是其他什么系统，你都把数据库访问，web访问，等等各个功能放到一个war包内。</p>
+<ul>
+<li>这样做的好处是，易于开发和测试；也十分方便部署；当需要扩展时，只需要将war复制多份，然后放到多个服务器上，再做个负载均衡就可以了。</li>
+<li>单体应用架构的缺点是，哪怕我要修改一个非常小的地方，我都需要停掉整个服务，重新打包、部署这个应用war包。特别是对于一个大型应用，我们不可能吧所有内容都放在一个应用里面，我们如何维护、如何分工合作都是问题。</li>
+</ul>
+<h3 id="微服务架构"><a href="#微服务架构" class="headerlink" title="微服务架构"></a>微服务架构</h3><p>all in one的架构方式，我们把所有的功能单元放在一个应用里面。然后我们把整个应用部署到服务器上。如果负载能力不行，我们将整个应用进行水平复制，进行扩展，然后在负载均衡。</p>
+<p>所谓微服务架构，就是打破之前all in one的架构方式，把每个功能元素独立出来。把独立出来的功能元素的动态组合，需要的功能元素才去拿来组合，需要多一些时可以整合多个功能元素。所以微服务架构是对功能元素进行复制，而没有对整个应用进行复制。</p>
+<p>这样做的好处是：</p>
+<ol>
+<li>节省了调用资源。</li>
+<li>每个功能元素的服务都是一个可替换的、可独立升级的软件代码。</li>
+</ol>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/3173282649.png" alt="1569860054088.png"></p>
+<p>Martin Flower 于 2014 年 3 月 25 日写的《Microservices》，详细的阐述了什么是微服务。</p>
+<ul>
+<li>原文地址：<a href="http://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">http://martinfowler.com/articles/microservices.html</a></li>
+<li>翻译：<a href="https://www.cnblogs.com/liuning8023/p/4493156.html" target="_blank" rel="noopener">https://www.cnblogs.com/liuning8023/p/4493156.html</a></li>
+</ul>
+<h3 id="如何构建微服务"><a href="#如何构建微服务" class="headerlink" title="如何构建微服务"></a>如何构建微服务</h3><p>一个大型系统的微服务架构，就像一个复杂交织的神经网络，每一个神经元就是一个功能元素，它们各自完成自己的功能，然后通过http相互请求调用。比如一个电商系统，查缓存、连数据库、浏览页面、结账、支付等服务都是一个个独立的功能服务，都被微化了，它们作为一个个微服务共同构建了一个庞大的系统。如果修改其中的一个功能，只需要更新升级其中一个功能服务单元即可。</p>
+<p>但是这种庞大的系统架构给部署和运维带来很大的难度。于是，spring为我们带来了构建大型分布式微服务的全套、全程产品：</p>
+<ul>
+<li><p>构建一个个功能独立的微服务应用单元，可以使用springboot，可以帮我们快速构建一个应用；</p>
+</li>
+<li><p>大型分布式网络服务的调用，这部分由spring cloud来完成，实现分布式；</p>
+</li>
+<li><p>在分布式中间，进行流式数据计算、批处理，我们有spring cloud data flow。</p>
+</li>
+<li><p>spring为我们想清楚了整个从开始构建应用到大型分布式应用全流程方案。</p>
+</li>
+<li><h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p><strong>准备工作</strong></p>
+<p>我们将学习如何快速的创建一个Spring Boot应用，并且实现一个简单的Http请求处理。通过这个例子对Spring Boot有一个初步的了解，并体验其结构简单、开发快速的特性。</p>
+<p>我的环境准备：</p>
+<ul>
+<li>java version “1.8.0_181”</li>
+<li>Maven-3.6.1</li>
+<li>SpringBoot 2.x 最新版</li>
+</ul>
+<p>开发工具：</p>
+<ul>
+<li>IDEA</li>
+</ul>
+<h3 id="创建基础项目"><a href="#创建基础项目" class="headerlink" title="创建基础项目"></a>创建基础项目</h3><p>Spring官方提供了非常方便的工具</p>
+<p>Spring Initializr：<a href="https://start.spring.io/" target="_blank" rel="noopener">https://start.spring.io/</a> 来帮助我们创建Spring Boot应用。</p>
+<p>【目标一：<strong>使用Spring Initializr页面创建项目</strong>】</p>
+<p>步骤：</p>
+<ol>
+<li>打开 <a href="https://start.spring.io/" target="_blank" rel="noopener">https://start.spring.io/</a></li>
+<li>填写项目信息</li>
+<li>点击”Generate Project“按钮生成项目；下载此项目<br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/2278667781.png" alt="1570257132310.png"></li>
+<li>解压项目包，并用编译器以Maven项目导入，以IntelliJ IDEA为例：</li>
+<li>导入这个Maven项目，一路下一步即可，直到项目导入完毕。<strong>如果是第一次使用，可能速度会比较慢，需要耐心等待一切就绪</strong><br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/3059404183.png" alt="1570257159884.png"></li>
+</ol>
+<h3 id="项目结构分析"><a href="#项目结构分析" class="headerlink" title="项目结构分析"></a>项目结构分析</h3><p>通过上面步骤完成了基础项目的创建。就会自动生成以下文件。</p>
+<ul>
+<li>程序的主程序类</li>
+<li>一个 application.properties 配置文件</li>
+<li>一个测试类</li>
+</ul>
+<p>生成的<code>DemoApplication</code>和测试包下的<code>DemoApplicationTests</code>类都可以直接运行来启动当前创建的项目，由于目前该项目未配合任何数据访问或Web模块，程序会在加载完Spring之后结束运行。</p>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/2439611141.png" alt="1570257265158.png"></p>
+<h3 id="pom-xml-分析"><a href="#pom-xml-分析" class="headerlink" title="pom.xml 分析"></a>pom.xml 分析</h3><p>打开<code>pom.xml</code>，看看Spring Boot项目的依赖：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot; xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0 https:&#x2F;&#x2F;maven.apache.org&#x2F;xsd&#x2F;maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;&#x2F;modelVersion&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;version&gt;2.1.9.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">        &lt;relativePath&#x2F;&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">    &lt;&#x2F;parent&gt;</span><br><span class="line">    &lt;groupId&gt;com.kuang&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;springboot-01-helloworld&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;name&gt;springboot-01-helloworld&lt;&#x2F;name&gt;</span><br><span class="line">    &lt;description&gt;springboot-01-helloworld&lt;&#x2F;description&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;&#x2F;java.version&gt;</span><br><span class="line">    &lt;&#x2F;properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;&#x2F;artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line">    &lt;&#x2F;dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;&#x2F;artifactId&gt;</span><br><span class="line">            &lt;&#x2F;plugin&gt;</span><br><span class="line">        &lt;&#x2F;plugins&gt;</span><br><span class="line">    &lt;&#x2F;build&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;project&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，主要有四个部分：</p>
+<ul>
+<li>项目元数据信息：创建时候输入的Project Metadata部分，也就是Maven项目的基本元素，包括：groupId、artifactId、version、name、description等</li>
+<li>parent：继承<code>spring-boot-starter-parent</code>的依赖管理，控制版本与打包等内容</li>
+<li>dependencies：项目具体依赖，这里包含了<code>spring-boot-starter-web</code>用于实现HTTP接口（该依赖中包含了Spring MVC），官网对它的描述是：使用Spring MVC构建Web（包括RESTful）应用程序的入门者，使用Tomcat作为默认嵌入式容器。；<code>spring-boot-starter-test</code>用于编写单元测试的依赖包。更多功能模块的使用我们将在后面逐步展开。</li>
+<li>build：构建配置部分。默认使用了<code>spring-boot-maven-plugin</code>，配合<code>spring-boot-starter-parent</code>就可以把Spring Boot应用打包成JAR来直接运行。</li>
+</ul>
+<h3 id="编写HTTP接口"><a href="#编写HTTP接口" class="headerlink" title="编写HTTP接口"></a>编写HTTP接口</h3><ol>
+<li><p>在主程序的同级目录下，新建一个controller包【一定要在同级目录下，否则识别不到】<br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/2566396584.png" alt="1570257676939.png"></p>
+</li>
+<li><p>在包中新建一个Controller类</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com.kuang.springboot.controller;</span><br><span class="line"></span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">public class HelloController &#123;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;&#x2F;hello&quot;)</span><br><span class="line">    public String hello() &#123;</span><br><span class="line">        return &quot;Hello World&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写完毕后，从主程序启动项目，浏览器发起请求，看页面返回；</p>
+<ul>
+<li>控制台输出了SpringBoot 的 banner</li>
+<li>控制条输出了 Tomcat 访问的端口号！</li>
+<li>访问 hello 请求，字符串成功返回！<br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/1251448510.png" alt="1570257840889.png"></li>
+</ul>
+</li>
+<li><p>将项目打成jar包<br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/1772691465.png" alt="1570258568981.png"></p>
+</li>
+<li><p>打成了jar包后，就可以在任何地方运行了！OK</p>
+</li>
+</ol>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>简单几步，就完成了一个web接口的开发，SpringBoot就是这么简单。所以我们常用它来建立我们的微服务项目！</li>
+</ul>
+<h3 id="彩蛋"><a href="#彩蛋" class="headerlink" title="彩蛋"></a>彩蛋</h3><p>如何更改启动时显示的字符拼成的字母，SpringBoot呢？</p>
+<p><a href="http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Kuangshen" target="_blank" rel="noopener">点击这个链接</a> ，直接输入要生成的字母，系统会自动转换，然后复制下面转换好的字符；</p>
+<p>到项目下的 resources 目录下新建一个txt文件就可以，banner.txt</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> &#x2F;\&#x2F;\&#x2F;\                            &#x2F;  \                   </span><br><span class="line">| \  &#x2F; |                         &#x2F;      \                 </span><br><span class="line">|  \&#x2F;  |                       &#x2F;          \               </span><br><span class="line">|  &#x2F;\  |----------------------|     &#x2F;\     |              </span><br><span class="line">| &#x2F;  \ |                      |    &#x2F;  \    |              </span><br><span class="line">|&#x2F;    \|                      |   &#x2F;    \   |              </span><br><span class="line">|\    &#x2F;|                      |  | (  ) |  |              </span><br><span class="line">| \  &#x2F; |                      |  | (  ) |  |              </span><br><span class="line">|  \&#x2F;  |                 &#x2F;\   |  |      |  |   &#x2F;\         </span><br><span class="line">|  &#x2F;\  |                &#x2F;  \  |  |      |  |  &#x2F;  \        </span><br><span class="line">| &#x2F;  \ |               |----| |  |      |  | |----|       </span><br><span class="line">|&#x2F;    \|---------------|    | | &#x2F;|   .  |\ | |    |       </span><br><span class="line">|\    &#x2F;|               |    | &#x2F;  |   .  |  \ |    |       </span><br><span class="line">| \  &#x2F; |               |    &#x2F;    |   .  |    \    |       </span><br><span class="line">|  \&#x2F;  |               |  &#x2F;      |   .  |      \  |       </span><br><span class="line">|  &#x2F;\  |---------------|&#x2F;        |   .  |        \|       </span><br><span class="line">| &#x2F;  \ |              &#x2F;   NASA   |   .  |  NASA    \      </span><br><span class="line">|&#x2F;    \|              (          |      |           )     </span><br><span class="line">|&#x2F;\&#x2F;\&#x2F;\|               |    | |--|      |--| |    |       </span><br><span class="line">------------------------&#x2F;  \-----&#x2F;  \&#x2F;  \-----&#x2F;  \--------</span><br><span class="line">                        \\&#x2F;&#x2F;     \\&#x2F;&#x2F;\\&#x2F;&#x2F;     \\&#x2F;&#x2F;        </span><br><span class="line">                         \&#x2F;       \&#x2F;  \&#x2F;       \&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>然后重启试试吧！</p>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/758786077.png" alt="1570258914089.png"></p>
+<h3 id="使用IDEA快速构建项目"><a href="#使用IDEA快速构建项目" class="headerlink" title="使用IDEA快速构建项目"></a>使用IDEA快速构建项目</h3><p><strong>之前，我们在官网上直接快速构建了一个springboot项目，IDEA也可以做到，我们来看下具体步骤：</strong></p>
+<ol>
+<li><p>创建一个新项目</p>
+</li>
+<li><p>选择spring initalizr ， 可以看到默认就是去官网的快速构建工具那里实现</p>
+</li>
+<li><p>填写项目信息</p>
+</li>
+<li><p>选择初始化的组件</p>
+</li>
+<li><p>填写项目路径</p>
+</li>
+<li><p>等待项目构建成功</p>
+</li>
+<li><p>我们在SpringBootApplication的同路径下，建一个包 controller ，建立一个类HelloSpringBoot</p>
+</li>
+<li><p>编写代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;@RestController 的意思就是 Controller 里面的方法都以 json 格式输出</span><br><span class="line">@RestController</span><br><span class="line">public class HelloSpringBoot &#123;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;&#x2F;hello&quot;)</span><br><span class="line">    public String hello()&#123;</span><br><span class="line">        return &quot;Hello,SpringBoot!&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>启动主程序，打开浏览器访问 <a href="http://localhost:8080/hello，就可以看到效果了！" target="_blank" rel="noopener">http://localhost:8080/hello，就可以看到效果了！</a></strong><br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/2365050656.png" alt="1570259079467.png"></p>
+</li>
+</ol>
+<p><strong>我们在之后的学习中，直接使用IDEA创建项目即可，方便快捷！这么简单的东西背后一定有故事，我们之后去进行一波源码分析！</strong></p>
+<h2 id="运行原理探究"><a href="#运行原理探究" class="headerlink" title="运行原理探究"></a>运行原理探究</h2><h3 id="pom-xml"><a href="#pom-xml" class="headerlink" title="pom.xml"></a>pom.xml</h3><p>我们之前写的HelloSpringBoot，到底是怎么运行的呢，我们来看pom.xml文件</p>
+<p>其中它主要是依赖一个父项目</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-boot-starter-parent&lt;&#x2F;artifactId&gt;</span><br><span class="line">   &lt;version&gt;2.1.9.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">   &lt;relativePath&#x2F;&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">&lt;&#x2F;parent&gt;</span><br></pre></td></tr></table></figure>
+
+<p>进入父项目</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;parent&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-boot-dependencies&lt;&#x2F;artifactId&gt;</span><br><span class="line">  &lt;version&gt;2.1.9.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">  &lt;relativePath&gt;..&#x2F;..&#x2F;spring-boot-dependencies&lt;&#x2F;relativePath&gt;</span><br><span class="line">&lt;&#x2F;parent&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里才是真正管理SpringBoot应用里面所有依赖版本的地方，SpringBoot的版本控制中心；</p>
+<p><strong>以后我们导入依赖默认是不需要写版本；但是如果导入的包没有在依赖中管理着就需要手动配置版本了；</strong></p>
+<h3 id="启动器"><a href="#启动器" class="headerlink" title="启动器"></a>启动器</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>springboot-boot-starter：就是spring-boot的场景启动器</strong></p>
+<p><strong>spring-boot-starter-web 帮我们导入了web模块正常运行所依赖的组件；</strong></p>
+<p>SpringBoot将所有的功能场景都抽取出来，做成一个个的starter （启动器），只需要在项目中引入这些starter即可，所有相关的依赖都会导入进来 ， 我们要用什么功能就导入什么样的场景启动器即可 ；</p>
+<h3 id="主程序"><a href="#主程序" class="headerlink" title="主程序"></a>主程序</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;@SpringBootApplication 来标注一个主程序类 ， 说明这是一个Spring Boot应用</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class Springboot01HelloworldApplication &#123;</span><br><span class="line"></span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">     &#x2F;&#x2F;将SpringBoot应用启动起来</span><br><span class="line">      SpringApplication.run(Springboot01HelloworldApplication.class, args);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是<strong>一个简单的启动类并不简单！</strong>我们来分析一下这些注解都干了什么</p>
+<h4 id="1、-SpringBootApplication"><a href="#1、-SpringBootApplication" class="headerlink" title="1、@SpringBootApplication"></a><strong>1、@SpringBootApplication</strong></h4><p>意义：SpringBoot应用标注在某个类上说明这个类是SpringBoot的主配置类 ， SpringBoot就应该运行这个类的main方法来启动SpringBoot应用；</p>
+<p>进入这个注解：可以看到上面还有很多其他注解！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@SpringBootConfiguration</span><br><span class="line">@EnableAutoConfiguration</span><br><span class="line">@ComponentScan(</span><br><span class="line">    excludeFilters &#x3D; &#123;@Filter(</span><br><span class="line">    type &#x3D; FilterType.CUSTOM,</span><br><span class="line">    classes &#x3D; &#123;TypeExcludeFilter.class&#125;</span><br><span class="line">), @Filter(</span><br><span class="line">    type &#x3D; FilterType.CUSTOM,</span><br><span class="line">    classes &#x3D; &#123;AutoConfigurationExcludeFilter.class&#125;</span><br><span class="line">)&#125;</span><br><span class="line">)</span><br><span class="line">public @interface SpringBootApplication &#123;</span><br><span class="line">    &#x2F;&#x2F;.....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、-ComponentScan"><a href="#2、-ComponentScan" class="headerlink" title="2、@ComponentScan"></a><strong>2、@ComponentScan</strong></h4><p> 这个注解在Spring中很重要 ， 它对应XML配置中的元素。@ComponentScan的功能就是自动扫描并加载符合条件的组件或者bean ， 将这个bean定义加载到IOC容器中 ；</p>
+<h4 id="3、-SpringBootConfiguration"><a href="#3、-SpringBootConfiguration" class="headerlink" title="3、@SpringBootConfiguration"></a><strong>3、@SpringBootConfiguration</strong></h4><p>意义：SpringBoot的配置类 ；标注在某个类上 ， 表示这是一个SpringBoot的配置类；</p>
+<p>我们继续进去这个注解查看</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Configuration &#x2F;&#x2F;点进去得到下面的 @Component</span><br><span class="line">public @interface SpringBootConfiguration &#123;</span><br><span class="line">&#125;</span><br><span class="line">@Component</span><br><span class="line">public @interface Configuration &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>@Configuration：配置类上来标注这个注解，说明这是一个配置类 ，配置类—即—-配置文件；</p>
+<p>我们继续点进去，发现配置类也是容器中的一个组件。@Component 。这就说明，启动类本身也是Spring中的一个组件而已，负责启动应用！</p>
+<h4 id="4、-EnableAutoConfiguration"><a href="#4、-EnableAutoConfiguration" class="headerlink" title="4、@EnableAutoConfiguration"></a><strong>4、@EnableAutoConfiguration</strong></h4><p>我们回到 SpringBootApplication 注解中继续看。</p>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/3676838154.png" alt="1570275600891.png"></p>
+<p><strong>@EnableAutoConfiguration ：开启自动配置功能</strong></p>
+<p> 以前我们需要自己配置的东西，而现在SpringBoot可以自动帮我们配置 ； @EnableAutoConfiguration告诉SpringBoot开启自动配置功能，这样自动配置才能生效；</p>
+<p><strong>我们点击去查看</strong>。<strong>发现注解@AutoConfigurationPackage ： 自动配置包</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@AutoConfigurationPackage &#x2F;&#x2F;自动配置包</span><br><span class="line">@Import(&#123;AutoConfigurationImportSelector.class&#125;) &#x2F;&#x2F;导入哪些组件的选择器</span><br><span class="line">public @interface EnableAutoConfiguration &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>再点进去看到一个 @Import({Registrar.class})</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Import(&#123;Registrar.class&#125;)</span><br><span class="line">public @interface AutoConfigurationPackage &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>@import</strong> ：Spring底层注解@import ， 给容器中导入一个组件</p>
+<p>Registrar.class 将主配置类 【即@SpringBootApplication标注的类】的所在包及包下面所有子包里面的所有组件扫描到Spring容器 ；</p>
+<p>退到上一步，继续看：<strong>@Import({AutoConfigurationImportSelector.class})</strong> ：给容器导入组件 ；</p>
+<p>AutoConfigurationImportSelector ： 自动配置导入选择器，那么它会导入哪些组件的选择器呢？ ;</p>
+<p>我们点击去这个类看源码：</p>
+<ol>
+<li><p>这个类中有一个这样的方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 获得候选的配置</span><br><span class="line">protected List&lt;String&gt; getCandidateConfigurations(AnnotationMetadata metadata, AnnotationAttributes attributes) &#123;</span><br><span class="line">    &#x2F;&#x2F;这里的getSpringFactoriesLoaderFactoryClass（）方法</span><br><span class="line">    &#x2F;&#x2F;返回的就是我们最开始看的启动自动导入配置文件的注解类；EnableAutoConfiguration</span><br><span class="line">    List&lt;String&gt; configurations &#x3D; SpringFactoriesLoader.loadFactoryNames(this.getSpringFactoriesLoaderFactoryClass(), this.getBeanClassLoader());</span><br><span class="line">    Assert.notEmpty(configurations, &quot;No auto configuration classes found in META-INF&#x2F;spring.factories. If you are using a custom packaging, make sure that file is correct.&quot;);</span><br><span class="line">    return configurations;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个方法又调用了 SpringFactoriesLoader 类的静态方法！我们进入SpringFactoriesLoader类loadFactoryNames() 方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static List&lt;String&gt; loadFactoryNames(Class&lt;?&gt; factoryClass, @Nullable ClassLoader classLoader) &#123;</span><br><span class="line">    String factoryClassName &#x3D; factoryClass.getName();</span><br><span class="line">    &#x2F;&#x2F;这里它又调用了 loadSpringFactories 方法</span><br><span class="line">    return (List)loadSpringFactories(classLoader).getOrDefault(factoryClassName, Collections.emptyList());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>我们继续点击查看 loadSpringFactories 方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">private static Map&lt;String, List&lt;String&gt;&gt; loadSpringFactories(@Nullable ClassLoader classLoader) &#123;</span><br><span class="line">    &#x2F;&#x2F;获得classLoader ， 我们返回可以看到这里得到的就是EnableAutoConfiguration标注的类本身</span><br><span class="line">    MultiValueMap&lt;String, String&gt; result &#x3D; (MultiValueMap)cache.get(classLoader);</span><br><span class="line">    if (result !&#x3D; null) &#123;</span><br><span class="line">        return result;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            &#x2F;&#x2F;去获取一个资源 &quot;META-INF&#x2F;spring.factories&quot;</span><br><span class="line">            Enumeration&lt;URL&gt; urls &#x3D; classLoader !&#x3D; null ? classLoader.getResources(&quot;META-INF&#x2F;spring.factories&quot;) : ClassLoader.getSystemResources(&quot;META-INF&#x2F;spring.factories&quot;);</span><br><span class="line">            LinkedMultiValueMap result &#x3D; new LinkedMultiValueMap();</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;将读取到的资源遍历，封装成为一个Properties</span><br><span class="line">            while(urls.hasMoreElements()) &#123;</span><br><span class="line">                URL url &#x3D; (URL)urls.nextElement();</span><br><span class="line">                UrlResource resource &#x3D; new UrlResource(url);</span><br><span class="line">                Properties properties &#x3D; PropertiesLoaderUtils.loadProperties(resource);</span><br><span class="line">                Iterator var6 &#x3D; properties.entrySet().iterator();</span><br><span class="line"></span><br><span class="line">                while(var6.hasNext()) &#123;</span><br><span class="line">                    Entry&lt;?, ?&gt; entry &#x3D; (Entry)var6.next();</span><br><span class="line">                    String factoryClassName &#x3D; ((String)entry.getKey()).trim();</span><br><span class="line">                    String[] var9 &#x3D; StringUtils.commaDelimitedListToStringArray((String)entry.getValue());</span><br><span class="line">                    int var10 &#x3D; var9.length;</span><br><span class="line"></span><br><span class="line">                    for(int var11 &#x3D; 0; var11 &lt; var10; ++var11) &#123;</span><br><span class="line">                        String factoryName &#x3D; var9[var11];</span><br><span class="line">                        result.add(factoryClassName, factoryName.trim());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            cache.put(classLoader, result);</span><br><span class="line">            return result;</span><br><span class="line">        &#125; catch (IOException var13) &#123;</span><br><span class="line">            throw new IllegalArgumentException(&quot;Unable to load factories from location [META-INF&#x2F;spring.factories]&quot;, var13);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>我们根据源头打开spring.factories的配置文件 ， 看到了很多自动配置的文件；这就是自动配置根源所在！</strong></p>
+</li>
+</ol>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/1620545636.png" alt="1570276858427.png"></p>
+<p><strong>WebMvcAutoConfiguration</strong></p>
+<p>我们在上面的自动配置类随便找一个打开看看，比如 ： WebMvcAutoConfiguration</p>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/165245652.png" alt="1570277345733.png"></p>
+<p>可以看到这些一个个的都是JavaConfig配置类，而且都注入了一些Bean，可以找一些自己认识的类，看着熟悉一下！</p>
+<p><strong>所以，自动配置真正实现是从classpath中搜寻所有的META-INF/spring.factories配置文件 ，并将其中对应的 org.springframework.boot.autoconfigure. 包下的配置项，通过反射实例化为对应标注了 @Configuration的JavaConfig形式的IOC容器配置类 ， 然后将这些都汇总成为一个实例并加载到IOC容器中。</strong></p>
+<p><strong>结论：</strong></p>
+<ol>
+<li>SpringBoot在启动的时候从类路径下的META-INF/spring.factories中获取EnableAutoConfiguration指定的值</li>
+<li>将这些值作为自动配置类导入容器 ， 自动配置类就生效 ， 帮我们进行自动配置工作；</li>
+<li>以前我们需要自己配置的东西 ， 自动配置类都帮我们解决了</li>
+<li>整个J2EE的整体解决方案和自动配置都在springboot-autoconfigure的jar包中；</li>
+<li><strong>它将所有需要导入的组件以全类名的方式返回 ， 这些组件就会被添加到容器中 ；</strong></li>
+<li>它会给容器中导入非常多的自动配置类 （xxxAutoConfiguration）, 就是给容器中导入这个场景需要的所有组件 ， 并配置好这些组件 ；</li>
+<li><strong>有了自动配置类 ， 免去了我们手动编写配置注入功能组件等的工作；</strong></li>
+</ol>
+<h3 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h3><p>我最初以为就是运行了一个main方法，没想到却开启了一个服务；</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">public class SpringbootDemo02Application &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        &#x2F;&#x2F;该方法返回一个ConfigurableApplicationContext对象</span><br><span class="line">        &#x2F;&#x2F;参数一：应用入口的类     参数类：命令行参数</span><br><span class="line">        SpringApplication.run(SpringbootDemo02Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>SpringApplication.run分析</strong></p>
+<p>分析该方法主要分两部分，一部分是SpringApplication的实例化，二是run方法的执行；</p>
+<h3 id="SpringApplication"><a href="#SpringApplication" class="headerlink" title="SpringApplication"></a>SpringApplication</h3><p>这个类主要做了以下四件事情</p>
+<ol>
+<li>推断应用的类型是普通的项目还是Web项目</li>
+<li>查找并加载所有可用初始化器 ， 设置到initializers属性中</li>
+<li>找出所有的应用程序监听器，设置到listeners属性中</li>
+<li>推断并设置main方法的定义类，找到运行的主类</li>
+</ol>
+<p><strong>查看构造器</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public SpringApplication(ResourceLoader resourceLoader, Class... primarySources) &#123;</span><br><span class="line">    this.sources &#x3D; new LinkedHashSet();</span><br><span class="line">    this.bannerMode &#x3D; Mode.CONSOLE;</span><br><span class="line">    this.logStartupInfo &#x3D; true;</span><br><span class="line">    this.addCommandLineProperties &#x3D; true;</span><br><span class="line">    this.addConversionService &#x3D; true;</span><br><span class="line">    this.headless &#x3D; true;</span><br><span class="line">    this.registerShutdownHook &#x3D; true;</span><br><span class="line">    this.additionalProfiles &#x3D; new HashSet();</span><br><span class="line">    this.isCustomEnvironment &#x3D; false;</span><br><span class="line">    this.resourceLoader &#x3D; resourceLoader;</span><br><span class="line">    Assert.notNull(primarySources, &quot;PrimarySources must not be null&quot;);</span><br><span class="line">    this.primarySources &#x3D; new LinkedHashSet(Arrays.asList(primarySources));</span><br><span class="line">    this.webApplicationType &#x3D; WebApplicationType.deduceFromClasspath();</span><br><span class="line">    this.setInitializers(this.getSpringFactoriesInstances(ApplicationContextInitializer.class));</span><br><span class="line">    this.setListeners(this.getSpringFactoriesInstances(ApplicationListener.class));</span><br><span class="line">    this.mainApplicationClass &#x3D; this.deduceMainApplicationClass();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="run方法"><a href="#run方法" class="headerlink" title="run方法"></a>run方法</h3></li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">chentao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://somunstao.github.io/2020/03/01/springboot01%EF%BC%9A%E5%BF%AB%E9%80%9F%E8%AE%A4%E8%AF%86/">https://somunstao.github.io/2020/03/01/springboot01：快速认识/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://SomunsTao.github.io" target="_blank">Somuns ` Tao</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpringBoot/">SpringBoot</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/03/02/SpringBoot02%EF%BC%9A%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86%E5%88%9D%E6%8E%A2/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpringBoot02：运行原理初探</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/03/03/SpringBoot03：yaml配置注入/" title="SpringBoot03：yaml配置注入"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-03</div><div class="relatedPosts_title">SpringBoot03：yaml配置注入</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/02/SpringBoot02：运行原理初探/" title="SpringBoot02：运行原理初探"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-02</div><div class="relatedPosts_title">SpringBoot02：运行原理初探</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/04/SpringBoot04：JSR303数据校验及多环境切换/" title="SpringBoot04：JSR303数据校验及多环境切换"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-04</div><div class="relatedPosts_title">SpringBoot04：JSR303数据校验及多环境切换</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/05/SpringBoot05：自动配置原理/" title="SpringBoot05：自动配置原理"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-05</div><div class="relatedPosts_title">SpringBoot05：自动配置原理</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/06/SpringBoot06：自定义starter/" title="SpringBoot06：自定义starter"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-06</div><div class="relatedPosts_title">SpringBoot06：自定义starter</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/08/SpringBoot08：整合Druid/" title="SpringBoot08：整合Druid"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-08</div><div class="relatedPosts_title">SpringBoot08：整合Druid</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="lv-container" data-id="city" data-uid="MTAyMC80OTk1Ni8yNjQ0Nw=="><script>(function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By chentao</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">簡</a><i class="darkmode far fa-moon" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script defer id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/click_heart.js"></script></body></html>

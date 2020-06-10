@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SpringBoot16：聊聊富文本编辑器 | Somuns ` Tao</title><meta name="description" content="you can &quot;just run&quot;"><meta name="keywords" content="spring"><meta name="author" content="chentao"><meta name="copyright" content="chentao"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SpringBoot16：聊聊富文本编辑器"><meta name="twitter:description" content="you can &quot;just run&quot;"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="SpringBoot16：聊聊富文本编辑器"><meta property="og:url" content="https://somunstao.github.io/2020/03/16/SpringBoot16%EF%BC%9A%E8%81%8A%E8%81%8A%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/"><meta property="og:site_name" content="Somuns ` Tao"><meta property="og:description" content="you can &quot;just run&quot;"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-03-15T16:00:00.000Z"><meta property="article:modified_time" content="2020-04-02T13:10:36.349Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://somunstao.github.io/2020/03/16/SpringBoot16%EF%BC%9A%E8%81%8A%E8%81%8A%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/"><link rel="prev" title="SpringBoot17：Dubbo和Zookeeper集成" href="https://somunstao.github.io/2020/03/17/SpringBoot17%EF%BC%9ADubbo%E5%92%8CZookeeper%E9%9B%86%E6%88%90/"><link rel="next" title="SpringBoot015：异步、定时、邮件任务" href="https://somunstao.github.io/2020/03/15/SpringBoot15%EF%BC%9A%E5%BC%82%E6%AD%A5%E3%80%81%E5%AE%9A%E6%97%B6%E3%80%81%E9%82%AE%E4%BB%B6%E4%BB%BB%E5%8A%A1/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: true,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Somuns ` Tao" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">43</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">7</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#聊聊富文本编辑器"><span class="toc-number">1.</span> <span class="toc-text">聊聊富文本编辑器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介"><span class="toc-number">1.0.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Editor-md"><span class="toc-number">1.0.2.</span> <span class="toc-text">Editor.md</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基础工程搭建"><span class="toc-number">1.0.3.</span> <span class="toc-text">基础工程搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文章编辑整合（重点）"><span class="toc-number">1.0.4.</span> <span class="toc-text">文章编辑整合（重点）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文章展示"><span class="toc-number">1.0.5.</span> <span class="toc-text">文章展示</span></a></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Somuns ` Tao</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">SpringBoot16：聊聊富文本编辑器</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-03-16 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-03-16</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-04-02 21:10:36"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-04-02</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/SpringBoot/">SpringBoot</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p><img src="https://mmbiz.qpic.cn/mmbiz_gif/uJDAUKrGC7L1vFQMnaRIJSmeZ58T2eZicAHqMeOptckiacohSnX6DTIYSic2Uic7GLWuezVDk3bYqJa4vQwPwrLJXQ/640?wx_fmt=gif&tp=webp&wxfrom=5&wx_lazy=1" alt="img"></p>
+<h1 id="聊聊富文本编辑器"><a href="#聊聊富文本编辑器" class="headerlink" title="聊聊富文本编辑器"></a>聊聊富文本编辑器</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>思考：我们平时在博客园，或者CSDN等平台进行写作的时候，有同学思考过他们的编辑器是怎么实现的吗？</p>
+<p>在博客园后台的选项设置中，可以看到一个文本编辑器的选项：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7L2xcvicNEaE5dVHuECNYZ18suooMnoGglOuOnSF8tibnw7h66KGfh3vsQa17B2GmibJpQMiaeBgV8EiaQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p>其实这个就是富文本编辑器，市面上有许多非常成熟的富文本编辑器，比如：</p>
+<ul>
+<li><p><strong>Editor.md</strong>——功能非常丰富的编辑器，左端编辑，右端预览，非常方便，完全免费</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://pandao.github.io/editor.md/" target="_blank" rel="noopener">https://pandao.github.io/editor.md/</a></li>
+</ul>
+</li>
+<li><p><strong>wangEditor</strong>——基于javascript和css开发的 Web富文本编辑器， 轻量、简洁、界面美观、易用、开源免费。</p>
+</li>
+<li><ul>
+<li>官网：<a href="http://www.wangeditor.com/" target="_blank" rel="noopener">http://www.wangeditor.com/</a></li>
+</ul>
+</li>
+<li><p><strong>TinyMCE</strong>——TinyMCE是一个轻量级的基于浏览器的所见即所得编辑器，由JavaScript写成。它对IE6+和Firefox1.5+都有着非常良好的支持。功能齐全，界面美观，就是文档是英文的，对开发人员英文水平有一定要求。</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://www.tiny.cloud/docs/demo/full-featured/" target="_blank" rel="noopener">https://www.tiny.cloud/docs/demo/full-featured/</a></li>
+<li>博客园</li>
+</ul>
+</li>
+<li><p><strong>百度ueditor</strong>——UEditor是由百度web前端研发部开发所见即所得富文本web编辑器，具有轻量，功能齐全，可定制，注重用户体验等特点，开源基于MIT协议，允许自由使用和修改代码，缺点是已经没有更新了</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://ueditor.baidu.com/website/onlinedemo.html" target="_blank" rel="noopener">https://ueditor.baidu.com/website/onlinedemo.html</a></li>
+</ul>
+</li>
+<li><p><strong>kindeditor</strong>——界面经典。</p>
+</li>
+<li><ul>
+<li>官网：<a href="http://kindeditor.net/demo.php" target="_blank" rel="noopener">http://kindeditor.net/demo.php</a></li>
+</ul>
+</li>
+<li><p><strong>Textbox</strong>——Textbox是一款极简但功能强大的在线文本编辑器，支持桌面设备和移动设备。主要功能包含内置的图像处理和存储、文件拖放、拼写检查和自动更正。此外，该工具还实现了屏幕阅读器等辅助技术，并符合WAI-ARIA可访问性标准。</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://textbox.io/" target="_blank" rel="noopener">https://textbox.io/</a></li>
+</ul>
+</li>
+<li><p><strong>CKEditor</strong>——国外的，界面美观。</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://ckeditor.com/ckeditor-5/demo/" target="_blank" rel="noopener">https://ckeditor.com/ckeditor-5/demo/</a></li>
+</ul>
+</li>
+<li><p><strong>quill</strong>——功能强大，还可以编辑公式等</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://quilljs.com/" target="_blank" rel="noopener">https://quilljs.com/</a></li>
+</ul>
+</li>
+<li><p><strong>simditor</strong>——界面美观，功能较全。</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://simditor.tower.im/" target="_blank" rel="noopener">https://simditor.tower.im/</a></li>
+</ul>
+</li>
+<li><p><strong>summernote</strong>——UI好看，精美</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://summernote.org/" target="_blank" rel="noopener">https://summernote.org/</a></li>
+</ul>
+</li>
+<li><p><strong>jodit</strong>——功能齐全</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://xdsoft.net/jodit/" target="_blank" rel="noopener">https://xdsoft.net/jodit/</a></li>
+</ul>
+</li>
+<li><p><strong>froala Editor</strong>——界面非常好看，功能非常强大，非常好用（非免费）</p>
+</li>
+<li><ul>
+<li>官网：<a href="https://www.froala.com/wysiwyg-editor" target="_blank" rel="noopener">https://www.froala.com/wysiwyg-editor</a></li>
+</ul>
+</li>
+</ul>
+<p>总之，目前可用的富文本编辑器有很多……这只是其中的一部分</p>
+<h3 id="Editor-md"><a href="#Editor-md" class="headerlink" title="Editor.md"></a>Editor.md</h3><p>我这里使用的就是Editor.md，作为一个资深码农，Mardown必然是我们程序猿最喜欢的格式，看下面，就爱上了！</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7L2xcvicNEaE5dVHuECNYZ18KK3ld4PfwECnYwwvrKXFoHmib5ImHIpxghPGfQoZTudmWzuavkdvVoQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p>我们可以在官网下载它：<a href="https://pandao.github.io/editor.md/" target="_blank" rel="noopener">https://pandao.github.io/editor.md/</a> ， 得到它的压缩包！</p>
+<p>解压以后，在examples目录下面，可以看到他的很多案例使用！学习，其实就是看人家怎么写的，然后进行模仿就好了！</p>
+<p>我们可以将整个解压的文件倒入我们的项目，将一些无用的测试和案例删掉即可！</p>
+<h3 id="基础工程搭建"><a href="#基础工程搭建" class="headerlink" title="基础工程搭建"></a>基础工程搭建</h3><blockquote>
+<p>数据库设计</p>
+</blockquote>
+<p>article：文章表</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th></th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>int</td>
+<td>文章的唯一ID</td>
+</tr>
+<tr>
+<td>author</td>
+<td>varchar</td>
+<td>作者</td>
+</tr>
+<tr>
+<td>title</td>
+<td>varchar</td>
+<td>标题</td>
+</tr>
+<tr>
+<td>content</td>
+<td>longtext</td>
+<td>文章的内容</td>
+</tr>
+</tbody></table>
+<p>建表SQL：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE TABLE &#96;article&#96; (</span><br><span class="line">&#96;id&#96; int(10) NOT NULL AUTO_INCREMENT COMMENT &#39;int文章的唯一ID&#39;,</span><br><span class="line">&#96;author&#96; varchar(50) NOT NULL COMMENT &#39;作者&#39;,</span><br><span class="line">&#96;title&#96; varchar(100) NOT NULL COMMENT &#39;标题&#39;,</span><br><span class="line">&#96;content&#96; longtext NOT NULL COMMENT &#39;文章的内容&#39;,</span><br><span class="line">PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>基础项目搭建</p>
+</blockquote>
+<p>1、建一个SpringBoot项目配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spring:</span><br><span class="line">datasource:</span><br><span class="line">  username: root</span><br><span class="line">  password: 123456</span><br><span class="line">  #?serverTimezone&#x3D;UTC解决时区的报错</span><br><span class="line">  url: jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;springboot?serverTimezone&#x3D;UTC&amp;useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf-8</span><br><span class="line">  driver-class-name: com.mysql.cj.jdbc.Driver</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line">   &lt;resource&gt;</span><br><span class="line">       &lt;directory&gt;src&#x2F;main&#x2F;java&lt;&#x2F;directory&gt;</span><br><span class="line">       &lt;includes&gt;</span><br><span class="line">           &lt;include&gt;**&#x2F;*.xml&lt;&#x2F;include&gt;</span><br><span class="line">       &lt;&#x2F;includes&gt;</span><br><span class="line">       &lt;filtering&gt;true&lt;&#x2F;filtering&gt;</span><br><span class="line">   &lt;&#x2F;resource&gt;</span><br><span class="line">&lt;&#x2F;resources&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、实体类：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;文章类</span><br><span class="line">@Data</span><br><span class="line">@NoArgsConstructor</span><br><span class="line">@AllArgsConstructor</span><br><span class="line">public class Article implements Serializable &#123;</span><br><span class="line"></span><br><span class="line">   private int id; &#x2F;&#x2F;文章的唯一ID</span><br><span class="line">   private String author; &#x2F;&#x2F;作者名</span><br><span class="line">   private String title; &#x2F;&#x2F;标题</span><br><span class="line">   private String content; &#x2F;&#x2F;文章的内容</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、mapper接口：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Mapper</span><br><span class="line">@Repository</span><br><span class="line">public interface ArticleMapper &#123;</span><br><span class="line">   &#x2F;&#x2F;查询所有的文章</span><br><span class="line">   List&lt;Article&gt; queryArticles();</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;新增一个文章</span><br><span class="line">   int addArticle(Article article);</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;根据文章id查询文章</span><br><span class="line">   Article getArticleById(int id);</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;根据文章id删除文章</span><br><span class="line">   int deleteArticleById(int id);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper PUBLIC &quot;-&#x2F;&#x2F;mybatis.org&#x2F;&#x2F;DTD Mapper 3.0&#x2F;&#x2F;EN&quot;</span><br><span class="line">       &quot;http:&#x2F;&#x2F;mybatis.org&#x2F;dtd&#x2F;mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;mapper namespace&#x3D;&quot;com.kuang.mapper.ArticleMapper&quot;&gt;</span><br><span class="line"></span><br><span class="line">   &lt;select id&#x3D;&quot;queryArticles&quot; resultType&#x3D;&quot;Article&quot;&gt;</span><br><span class="line">      select * from article</span><br><span class="line">   &lt;&#x2F;select&gt;</span><br><span class="line">   </span><br><span class="line">   &lt;select id&#x3D;&quot;getArticleById&quot; resultType&#x3D;&quot;Article&quot;&gt;</span><br><span class="line">      select * from article where id &#x3D; #&#123;id&#125;</span><br><span class="line">   &lt;&#x2F;select&gt;</span><br><span class="line">   </span><br><span class="line">   &lt;insert id&#x3D;&quot;addArticle&quot; parameterType&#x3D;&quot;Article&quot;&gt;</span><br><span class="line">      insert into article (author,title,content) values (#&#123;author&#125;,#&#123;title&#125;,#&#123;content&#125;);</span><br><span class="line">   &lt;&#x2F;insert&gt;</span><br><span class="line">   </span><br><span class="line">   &lt;delete id&#x3D;&quot;deleteArticleById&quot; parameterType&#x3D;&quot;int&quot;&gt;</span><br><span class="line">      delete from article where id &#x3D; #&#123;id&#125;</span><br><span class="line">   &lt;&#x2F;delete&gt;</span><br><span class="line">   </span><br><span class="line">&lt;&#x2F;mapper&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>既然已经提供了 myBatis 的映射配置文件，自然要告诉 spring boot 这些文件的位置</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mybatis:</span><br><span class="line">mapper-locations: classpath:com&#x2F;kuang&#x2F;mapper&#x2F;*.xml</span><br><span class="line">type-aliases-package: com.kuang.pojo</span><br></pre></td></tr></table></figure>
+
+<p>编写一个Controller测试下，是否ok；</p>
+<h3 id="文章编辑整合（重点）"><a href="#文章编辑整合（重点）" class="headerlink" title="文章编辑整合（重点）"></a>文章编辑整合（重点）</h3><p>1、导入 editor.md 资源 ，删除多余文件</p>
+<p>2、编辑文章页面 editor.html、需要引入 jQuery；</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html class&#x3D;&quot;x-admin-sm&quot; lang&#x3D;&quot;zh&quot; xmlns:th&#x3D;&quot;http:&#x2F;&#x2F;www.thymeleaf.org&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">   &lt;title&gt;秦疆&#39;Blog&lt;&#x2F;title&gt;</span><br><span class="line">   &lt;meta name&#x3D;&quot;renderer&quot; content&#x3D;&quot;webkit&quot;&gt;</span><br><span class="line">   &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge,chrome&#x3D;1&quot;&gt;</span><br><span class="line">   &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width,user-scalable&#x3D;yes, minimum-scale&#x3D;0.4, initial-scale&#x3D;0.8,target-densitydpi&#x3D;low-dpi&quot; &#x2F;&gt;</span><br><span class="line">   &lt;!--Editor.md--&gt;</span><br><span class="line">   &lt;link rel&#x3D;&quot;stylesheet&quot; th:href&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;css&#x2F;editormd.css&#125;&quot;&#x2F;&gt;</span><br><span class="line">   &lt;link rel&#x3D;&quot;shortcut icon&quot; href&#x3D;&quot;https:&#x2F;&#x2F;pandao.github.io&#x2F;editor.md&#x2F;favicon.ico&quot; type&#x3D;&quot;image&#x2F;x-icon&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class&#x3D;&quot;layui-fluid&quot;&gt;</span><br><span class="line">   &lt;div class&#x3D;&quot;layui-row layui-col-space15&quot;&gt;</span><br><span class="line">       &lt;div class&#x3D;&quot;layui-col-md12&quot;&gt;</span><br><span class="line">           &lt;!--博客表单--&gt;</span><br><span class="line">           &lt;form name&#x3D;&quot;mdEditorForm&quot;&gt;</span><br><span class="line">               &lt;div&gt;</span><br><span class="line">                  标题：&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;title&quot;&gt;</span><br><span class="line">               &lt;&#x2F;div&gt;</span><br><span class="line">               &lt;div&gt;</span><br><span class="line">                  作者：&lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;author&quot;&gt;</span><br><span class="line">               &lt;&#x2F;div&gt;</span><br><span class="line">               &lt;div id&#x3D;&quot;article-content&quot;&gt;</span><br><span class="line">                   &lt;textarea name&#x3D;&quot;content&quot; id&#x3D;&quot;content&quot; style&#x3D;&quot;display:none;&quot;&gt; &lt;&#x2F;textarea&gt;</span><br><span class="line">               &lt;&#x2F;div&gt;</span><br><span class="line">           &lt;&#x2F;form&gt;</span><br><span class="line"></span><br><span class="line">       &lt;&#x2F;div&gt;</span><br><span class="line">   &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--editormd--&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;jquery.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;editormd.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">   var testEditor;</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;window.onload &#x3D; function()&#123; &#125;</span><br><span class="line">   $(function() &#123;</span><br><span class="line">       testEditor &#x3D; editormd(&quot;article-content&quot;, &#123;</span><br><span class="line">           width : &quot;95%&quot;,</span><br><span class="line">           height : 400,</span><br><span class="line">           syncScrolling : &quot;single&quot;,</span><br><span class="line">           path : &quot;..&#x2F;editormd&#x2F;lib&#x2F;&quot;,</span><br><span class="line">           saveHTMLToTextarea : true,    &#x2F;&#x2F; 保存 HTML 到 Textarea</span><br><span class="line">           emoji: true,</span><br><span class="line">           theme: &quot;dark&quot;,&#x2F;&#x2F;工具栏主题</span><br><span class="line">           previewTheme: &quot;dark&quot;,&#x2F;&#x2F;预览主题</span><br><span class="line">           editorTheme: &quot;pastel-on-dark&quot;,&#x2F;&#x2F;编辑主题</span><br><span class="line">           tex : true,                   &#x2F;&#x2F; 开启科学公式TeX语言支持，默认关闭</span><br><span class="line">           flowChart : true,             &#x2F;&#x2F; 开启流程图支持，默认关闭</span><br><span class="line">           sequenceDiagram : true,       &#x2F;&#x2F; 开启时序&#x2F;序列图支持，默认关闭,</span><br><span class="line">           &#x2F;&#x2F;图片上传</span><br><span class="line">           imageUpload : true,</span><br><span class="line">           imageFormats : [&quot;jpg&quot;, &quot;jpeg&quot;, &quot;gif&quot;, &quot;png&quot;, &quot;bmp&quot;, &quot;webp&quot;],</span><br><span class="line">           imageUploadURL : &quot;&#x2F;article&#x2F;file&#x2F;upload&quot;,</span><br><span class="line">           onload : function() &#123;</span><br><span class="line">               console.log(&#39;onload&#39;, this);</span><br><span class="line">          &#125;,</span><br><span class="line">           &#x2F;*指定需要显示的功能按钮*&#x2F;</span><br><span class="line">           toolbarIcons : function() &#123;</span><br><span class="line">               return [&quot;undo&quot;,&quot;redo&quot;,&quot;|&quot;,</span><br><span class="line">                   &quot;bold&quot;,&quot;del&quot;,&quot;italic&quot;,&quot;quote&quot;,&quot;ucwords&quot;,&quot;uppercase&quot;,&quot;lowercase&quot;,&quot;|&quot;,</span><br><span class="line">                   &quot;h1&quot;,&quot;h2&quot;,&quot;h3&quot;,&quot;h4&quot;,&quot;h5&quot;,&quot;h6&quot;,&quot;|&quot;,</span><br><span class="line">                   &quot;list-ul&quot;,&quot;list-ol&quot;,&quot;hr&quot;,&quot;|&quot;,</span><br><span class="line">                   &quot;link&quot;,&quot;reference-link&quot;,&quot;image&quot;,&quot;code&quot;,&quot;preformatted-text&quot;,</span><br><span class="line">                   &quot;code-block&quot;,&quot;table&quot;,&quot;datetime&quot;,&quot;emoji&quot;,&quot;html-entities&quot;,&quot;pagebreak&quot;,&quot;|&quot;,</span><br><span class="line">                   &quot;goto-line&quot;,&quot;watch&quot;,&quot;preview&quot;,&quot;fullscreen&quot;,&quot;clear&quot;,&quot;search&quot;,&quot;|&quot;,</span><br><span class="line">                   &quot;help&quot;,&quot;info&quot;,&quot;releaseIcon&quot;, &quot;index&quot;]</span><br><span class="line">          &#125;,</span><br><span class="line"></span><br><span class="line">           &#x2F;*自定义功能按钮，下面我自定义了2个，一个是发布，一个是返回首页*&#x2F;</span><br><span class="line">           toolbarIconTexts : &#123;</span><br><span class="line">               releaseIcon : &quot;&lt;span bgcolor&#x3D;\&quot;gray\&quot;&gt;发布&lt;&#x2F;span&gt;&quot;,</span><br><span class="line">               index : &quot;&lt;span bgcolor&#x3D;\&quot;red\&quot;&gt;返回首页&lt;&#x2F;span&gt;&quot;,</span><br><span class="line">          &#125;,</span><br><span class="line"></span><br><span class="line">           &#x2F;*给自定义按钮指定回调函数*&#x2F;</span><br><span class="line">           toolbarHandlers:&#123;</span><br><span class="line">               releaseIcon : function(cm, icon, cursor, selection) &#123;</span><br><span class="line">                   &#x2F;&#x2F;表单提交</span><br><span class="line">                   mdEditorForm.method &#x3D; &quot;post&quot;;</span><br><span class="line">                   mdEditorForm.action &#x3D; &quot;&#x2F;article&#x2F;addArticle&quot;;&#x2F;&#x2F;提交至服务器的路径</span><br><span class="line">                   mdEditorForm.submit();</span><br><span class="line">              &#125;,</span><br><span class="line">               index : function()&#123;</span><br><span class="line">                   window.location.href &#x3D; &#39;&#x2F;&#39;;</span><br><span class="line">              &#125;,</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>3、编写Controller，进行跳转，以及保存文章</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Controller</span><br><span class="line">@RequestMapping(&quot;&#x2F;article&quot;)</span><br><span class="line">public class ArticleController &#123;</span><br><span class="line"></span><br><span class="line">   @GetMapping(&quot;&#x2F;toEditor&quot;)</span><br><span class="line">   public String toEditor()&#123;</span><br><span class="line">       return &quot;editor&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">   @PostMapping(&quot;&#x2F;addArticle&quot;)</span><br><span class="line">   public String addArticle(Article article)&#123;</span><br><span class="line">       articleMapper.addArticle(article);</span><br><span class="line">       return &quot;editor&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>图片上传问题</p>
+</blockquote>
+<p>1、前端js中添加配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;图片上传</span><br><span class="line">imageUpload : true,</span><br><span class="line">imageFormats : [&quot;jpg&quot;, &quot;jpeg&quot;, &quot;gif&quot;, &quot;png&quot;, &quot;bmp&quot;, &quot;webp&quot;],</span><br><span class="line">imageUploadURL : &quot;&#x2F;article&#x2F;file&#x2F;upload&quot;, &#x2F;&#x2F; &#x2F;&#x2F;这个是上传图片时的访问地址</span><br></pre></td></tr></table></figure>
+
+<p>2、后端请求，接收保存这个图片, 需要导入 FastJson 的依赖！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;博客图片上传问题</span><br><span class="line">@RequestMapping(&quot;&#x2F;file&#x2F;upload&quot;)</span><br><span class="line">@ResponseBody</span><br><span class="line">public JSONObject fileUpload(@RequestParam(value &#x3D; &quot;editormd-image-file&quot;, required &#x3D; true) MultipartFile file, HttpServletRequest request) throws IOException &#123;</span><br><span class="line">   &#x2F;&#x2F;上传路径保存设置</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;获得SpringBoot当前项目的路径：System.getProperty(&quot;user.dir&quot;)</span><br><span class="line">   String path &#x3D; System.getProperty(&quot;user.dir&quot;)+&quot;&#x2F;upload&#x2F;&quot;;</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;按照月份进行分类：</span><br><span class="line">   Calendar instance &#x3D; Calendar.getInstance();</span><br><span class="line">   String month &#x3D; (instance.get(Calendar.MONTH) + 1)+&quot;月&quot;;</span><br><span class="line">   path &#x3D; path+month;</span><br><span class="line"></span><br><span class="line">   File realPath &#x3D; new File(path);</span><br><span class="line">   if (!realPath.exists())&#123;</span><br><span class="line">       realPath.mkdir();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;上传文件地址</span><br><span class="line">   System.out.println(&quot;上传文件保存地址：&quot;+realPath);</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;解决文件名字问题：我们使用uuid;</span><br><span class="line">   String filename &#x3D; &quot;ks-&quot;+UUID.randomUUID().toString().replaceAll(&quot;-&quot;, &quot;&quot;);</span><br><span class="line">   &#x2F;&#x2F;通过CommonsMultipartFile的方法直接写文件（注意这个时候）</span><br><span class="line">   file.transferTo(new File(realPath +&quot;&#x2F;&quot;+ filename));</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F;给editormd进行回调</span><br><span class="line">   JSONObject res &#x3D; new JSONObject();</span><br><span class="line">   res.put(&quot;url&quot;,&quot;&#x2F;upload&#x2F;&quot;+month+&quot;&#x2F;&quot;+ filename);</span><br><span class="line">   res.put(&quot;success&quot;, 1);</span><br><span class="line">   res.put(&quot;message&quot;, &quot;upload success!&quot;);</span><br><span class="line"></span><br><span class="line">   return res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、解决文件回显显示的问题，设置虚拟目录映射！在我们自己拓展的MvcConfig中进行配置即可！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class MyMvcConfig implements WebMvcConfigurer &#123;</span><br><span class="line"></span><br><span class="line">   &#x2F;&#x2F; 文件保存在真实目录&#x2F;upload&#x2F;下，</span><br><span class="line">   &#x2F;&#x2F; 访问的时候使用虚路径&#x2F;upload，比如文件名为1.png，就直接&#x2F;upload&#x2F;1.png就ok了。</span><br><span class="line">   @Override</span><br><span class="line">   public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;</span><br><span class="line">       registry.addResourceHandler(&quot;&#x2F;upload&#x2F;**&quot;)</span><br><span class="line">          .addResourceLocations(&quot;file:&quot;+System.getProperty(&quot;user.dir&quot;)+&quot;&#x2F;upload&#x2F;&quot;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>表情包问题</p>
+</blockquote>
+<p>自己手动下载，emoji 表情包，放到图片路径下：</p>
+<p>修改editormd.js文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; Emoji graphics files url path</span><br><span class="line">editormd.emoji     &#x3D; &#123;</span><br><span class="line">   path : &quot;..&#x2F;editormd&#x2F;plugins&#x2F;emoji-dialog&#x2F;emoji&#x2F;&quot;,</span><br><span class="line">   ext   : &quot;.png&quot;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文章展示"><a href="#文章展示" class="headerlink" title="文章展示"></a>文章展示</h3><p>1、Controller 中增加方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@GetMapping(&quot;&#x2F;&#123;id&#125;&quot;)</span><br><span class="line">public String show(@PathVariable(&quot;id&quot;) int id,Model model)&#123;</span><br><span class="line">   Article article &#x3D; articleMapper.getArticleById(id);</span><br><span class="line">   model.addAttribute(&quot;article&quot;,article);</span><br><span class="line">   return &quot;article&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、编写页面 article.html</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot; xmlns:th&#x3D;&quot;http:&#x2F;&#x2F;www.thymeleaf.org&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">   &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">   &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1, maximum-scale&#x3D;1&quot;&gt;</span><br><span class="line">   &lt;title th:text&#x3D;&quot;$&#123;article.title&#125;&quot;&gt;&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;div&gt;</span><br><span class="line">   &lt;!--文章头部信息：标题，作者，最后更新日期，导航--&gt;</span><br><span class="line">   &lt;h2 style&#x3D;&quot;margin: auto 0&quot; th:text&#x3D;&quot;$&#123;article.title&#125;&quot;&gt;&lt;&#x2F;h2&gt;</span><br><span class="line">  作者：&lt;span style&#x3D;&quot;float: left&quot; th:text&#x3D;&quot;$&#123;article.author&#125;&quot;&gt;&lt;&#x2F;span&gt;</span><br><span class="line">   &lt;!--文章主体内容--&gt;</span><br><span class="line">   &lt;div id&#x3D;&quot;doc-content&quot;&gt;</span><br><span class="line">       &lt;textarea style&#x3D;&quot;display:none;&quot; placeholder&#x3D;&quot;markdown&quot; th:text&#x3D;&quot;$&#123;article.content&#125;&quot;&gt;&lt;&#x2F;textarea&gt;</span><br><span class="line">   &lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; th:href&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;css&#x2F;editormd.preview.css&#125;&quot; &#x2F;&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;jquery.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;marked.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;prettify.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;raphael.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;underscore.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;sequence-diagram.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;flowchart.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;lib&#x2F;jquery.flowchart.min.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script th:src&#x3D;&quot;@&#123;&#x2F;editormd&#x2F;editormd.js&#125;&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">   var testEditor;</span><br><span class="line">   $(function () &#123;</span><br><span class="line">       testEditor &#x3D; editormd.markdownToHTML(&quot;doc-content&quot;, &#123;&#x2F;&#x2F;注意：这里是上面DIV的id</span><br><span class="line">           htmlDecode: &quot;style,script,iframe&quot;,</span><br><span class="line">           emoji: true,</span><br><span class="line">           taskList: true,</span><br><span class="line">           tocm: true,</span><br><span class="line">           tex: true, &#x2F;&#x2F; 默认不解析</span><br><span class="line">           flowChart: true, &#x2F;&#x2F; 默认不解析</span><br><span class="line">           sequenceDiagram: true, &#x2F;&#x2F; 默认不解析</span><br><span class="line">           codeFold: true</span><br><span class="line">      &#125;);&#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>重启项目，访问进行测试！大功告成！</p>
+<p>小结：</p>
+<p>有了富文本编辑器，我们网站的功能就会又多一项，大家到了这里完全可以有时间写一个属于自己的博客网站了，根据所学的知识是完全没有任何问题的！</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LUziamJeeiaLFt7YwxJtAgSMJeByJtUH7v6CqSCHYu4ibBe0cPDkfsE95xd2UQOOFfrZXZmVmfIDd5g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p>​                                                                                            end</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LUziamJeeiaLFt7YwxJtAgSMGnHjd2QQEZuDaQILmHqcMzYvQiaasptQOgicqPxTZWiaInwElicmx9IYgQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">chentao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://somunstao.github.io/2020/03/16/SpringBoot16%EF%BC%9A%E8%81%8A%E8%81%8A%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/">https://somunstao.github.io/2020/03/16/SpringBoot16：聊聊富文本编辑器/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://SomunsTao.github.io" target="_blank">Somuns ` Tao</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpringBoot/">SpringBoot</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/03/17/SpringBoot17%EF%BC%9ADubbo%E5%92%8CZookeeper%E9%9B%86%E6%88%90/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpringBoot17：Dubbo和Zookeeper集成</div></div></a></div><div class="next-post pull_right"><a href="/2020/03/15/SpringBoot15%EF%BC%9A%E5%BC%82%E6%AD%A5%E3%80%81%E5%AE%9A%E6%97%B6%E3%80%81%E9%82%AE%E4%BB%B6%E4%BB%BB%E5%8A%A1/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SpringBoot015：异步、定时、邮件任务</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/03/03/SpringBoot03：yaml配置注入/" title="SpringBoot03：yaml配置注入"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-03</div><div class="relatedPosts_title">SpringBoot03：yaml配置注入</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/02/SpringBoot02：运行原理初探/" title="SpringBoot02：运行原理初探"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-02</div><div class="relatedPosts_title">SpringBoot02：运行原理初探</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/04/SpringBoot04：JSR303数据校验及多环境切换/" title="SpringBoot04：JSR303数据校验及多环境切换"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-04</div><div class="relatedPosts_title">SpringBoot04：JSR303数据校验及多环境切换</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/05/SpringBoot05：自动配置原理/" title="SpringBoot05：自动配置原理"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-05</div><div class="relatedPosts_title">SpringBoot05：自动配置原理</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/06/SpringBoot06：自定义starter/" title="SpringBoot06：自定义starter"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-06</div><div class="relatedPosts_title">SpringBoot06：自定义starter</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/08/SpringBoot08：整合Druid/" title="SpringBoot08：整合Druid"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-08</div><div class="relatedPosts_title">SpringBoot08：整合Druid</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="lv-container" data-id="city" data-uid="MTAyMC80OTk1Ni8yNjQ0Nw=="><script>(function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By chentao</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">簡</a><i class="darkmode far fa-moon" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script defer id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/click_heart.js"></script></body></html>

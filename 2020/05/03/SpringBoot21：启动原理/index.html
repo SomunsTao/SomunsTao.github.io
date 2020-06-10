@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SpringBoot：启动原理解析 | Somuns ` Tao</title><meta name="description" content="you can &quot;just run&quot;"><meta name="keywords" content="spring"><meta name="author" content="chentao"><meta name="copyright" content="chentao"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SpringBoot：启动原理解析"><meta name="twitter:description" content="you can &quot;just run&quot;"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="SpringBoot：启动原理解析"><meta property="og:url" content="https://somunstao.github.io/2020/05/03/SpringBoot21%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/"><meta property="og:site_name" content="Somuns ` Tao"><meta property="og:description" content="you can &quot;just run&quot;"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-05-02T16:00:00.000Z"><meta property="article:modified_time" content="2020-05-01T05:05:32.289Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://somunstao.github.io/2020/05/03/SpringBoot21%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/"><link rel="prev" title="SpringBoot：自动配置解析" href="https://somunstao.github.io/2020/05/03/SpringBoot21%EF%BC%9A%20%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE/"><link rel="next" title="SpringBoot：小总结" href="https://somunstao.github.io/2020/03/30/SpringBoot20%EF%BC%9A%E5%B0%8F%E6%80%BB%E7%BB%93/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: true,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Somuns ` Tao" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">43</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">7</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-boot：启动原理解析"><span class="toc-number">1.</span> <span class="toc-text">spring boot：启动原理解析</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Somuns ` Tao</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">SpringBoot：启动原理解析</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-05-03 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-05-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-01 13:05:32"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-01</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/SpringBoot/">SpringBoot</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p><img src="http://p99.pstatp.com/large/pgc-image/15367619528862cca2a0df9" alt="img"></p>
+<p>原文链接：<a href="https://www.cnblogs.com/xiaoxi/p/7999885.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiaoxi/p/7999885.html</a></p>
+<p>原作者：平凡希</p>
+<hr>
+<hr>
+<h1 id="spring-boot：启动原理解析"><a href="#spring-boot：启动原理解析" class="headerlink" title="spring boot：启动原理解析"></a><a href="https://www.cnblogs.com/xiaoxi/p/7999885.html" target="_blank" rel="noopener">spring boot：启动原理解析</a></h1><p>我们开发任何一个Spring Boot项目，都会用到如下的启动类</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 @SpringBootApplication</span><br><span class="line">2 public class Application &#123;</span><br><span class="line">3     public static void main(String[] args) &#123;</span><br><span class="line">4         SpringApplication.run(Application.class, args);</span><br><span class="line">5     &#125;</span><br><span class="line">6 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面代码可以看出，Annotation定义（@SpringBootApplication）和类定义（SpringApplication.run）最为耀眼，所以要揭开SpringBoot的神秘面纱，我们要从这两位开始就可以了。</p>
+<p><strong>一、SpringBootApplication背后的秘密</strong></p>
+<p>@SpringBootApplication注解是Spring Boot的核心注解，它其实是一个组合注解：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> 1 @Target(ElementType.TYPE)</span><br><span class="line"> 2 @Retention(RetentionPolicy.RUNTIME)</span><br><span class="line"> 3 @Documented</span><br><span class="line"> 4 @Inherited</span><br><span class="line"> 5 @SpringBootConfiguration</span><br><span class="line"> 6 @EnableAutoConfiguration</span><br><span class="line"> 7 @ComponentScan(excludeFilters &#x3D; &#123;</span><br><span class="line"> 8         @Filter(type &#x3D; FilterType.CUSTOM, classes &#x3D; TypeExcludeFilter.class),</span><br><span class="line"> 9         @Filter(type &#x3D; FilterType.CUSTOM, classes &#x3D; AutoConfigurationExcludeFilter.class) &#125;)</span><br><span class="line">10 public @interface SpringBootApplication &#123;</span><br><span class="line">11 ...</span><br><span class="line">12 &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>虽然定义使用了多个Annotation进行了原信息标注，但实际上重要的只有三个Annotation：</p>
+<ul>
+<li>@Configuration（@SpringBootConfiguration点开查看发现里面还是应用了@Configuration）</li>
+<li>@EnableAutoConfiguration</li>
+<li>@ComponentScan</li>
+</ul>
+<p>即 @SpringBootApplication = (默认属性)@Configuration + @EnableAutoConfiguration + @ComponentScan。</p>
+<p>所以，如果我们使用如下的SpringBoot启动类，整个SpringBoot应用依然可以与之前的启动类功能对等：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 @Configuration</span><br><span class="line">2 @EnableAutoConfiguration</span><br><span class="line">3 @ComponentScan</span><br><span class="line">4 public class Application &#123;</span><br><span class="line">5     public static void main(String[] args) &#123;</span><br><span class="line">6         SpringApplication.run(Application.class, args);</span><br><span class="line">7     &#125;</span><br><span class="line">8 &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>每次写这3个比较累，所以写一个@SpringBootApplication方便点。接下来分别介绍这3个Annotation。</p>
+<p><strong>1、@Configuration</strong></p>
+<p>   这里的@Configuration对我们来说不陌生，它就是JavaConfig形式的Spring Ioc容器的配置类使用的那个@Configuration，SpringBoot社区推荐使用基于JavaConfig的配置形式，所以，这里的启动类标注了@Configuration之后，本身其实也是一个IoC容器的配置类。</p>
+<p>举几个简单例子回顾下，XML跟config配置方式的区别：</p>
+<p><strong>（1）表达形式层面</strong></p>
+<p>基于XML配置的方式是这样：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">2 &lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span><br><span class="line">3        xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">4        xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans-3.0.xsd&quot;</span><br><span class="line">5        default-lazy-init&#x3D;&quot;true&quot;&gt;</span><br><span class="line">6     &lt;!--bean定义--&gt;</span><br><span class="line">7 &lt;&#x2F;beans&gt;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>而基于JavaConfig的配置方式是这样：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 @Configuration</span><br><span class="line">2 public class MockConfiguration&#123;</span><br><span class="line">3     &#x2F;&#x2F;bean定义</span><br><span class="line">4 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>任何一个标注了@Configuration的Java类定义都是一个JavaConfig配置类。</p>
+<p><strong>（2）注册bean定义层面</strong></p>
+<p>基于XML的配置形式是这样：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt;bean id&#x3D;&quot;mockService&quot; class&#x3D;&quot;..MockServiceImpl&quot;&gt;</span><br><span class="line">2     ...</span><br><span class="line">3 &lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p>而基于JavaConfig的配置形式是这样的：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 @Configuration</span><br><span class="line">2 public class MockConfiguration&#123;</span><br><span class="line">3     @Bean</span><br><span class="line">4     public MockService mockService()&#123;</span><br><span class="line">5         return new MockServiceImpl();</span><br><span class="line">6     &#125;</span><br><span class="line">7 &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>任何一个标注了@Bean的方法，其返回值将作为一个bean定义注册到Spring的IoC容器，方法名将默认成该bean定义的id。</p>
+<p><strong>（3）表达依赖注入关系层面</strong></p>
+<p>为了表达bean与bean之间的依赖关系，在XML形式中一般是这样：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt;bean id&#x3D;&quot;mockService&quot; class&#x3D;&quot;..MockServiceImpl&quot;&gt;</span><br><span class="line">2     &lt;propery name &#x3D;&quot;dependencyService&quot; ref&#x3D;&quot;dependencyService&quot; &#x2F;&gt;</span><br><span class="line">3 &lt;&#x2F;bean&gt;</span><br><span class="line">4 </span><br><span class="line">5 &lt;bean id&#x3D;&quot;dependencyService&quot; class&#x3D;&quot;DependencyServiceImpl&quot;&gt;&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p>而基于JavaConfig的配置形式是这样的：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> 1 @Configuration</span><br><span class="line"> 2 public class MockConfiguration&#123;</span><br><span class="line"> 3     @Bean</span><br><span class="line"> 4     public MockService mockService()&#123;</span><br><span class="line"> 5         return new MockServiceImpl(dependencyService());</span><br><span class="line"> 6     &#125;</span><br><span class="line"> 7     </span><br><span class="line"> 8     @Bean</span><br><span class="line"> 9     public DependencyService dependencyService()&#123;</span><br><span class="line">10         return new DependencyServiceImpl();</span><br><span class="line">11     &#125;</span><br><span class="line">12 &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>如果一个bean的定义依赖其他bean，则直接调用对应的JavaConfig类中依赖bean的创建方法就可以了。</p>
+<hr>
+<p>@Configuration：提到@Configuration就要提到他的搭档@Bean。使用这两个注解就可以创建一个简单的spring配置类，可以用来替代相应的xml配置文件。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1 &lt;beans&gt; </span><br><span class="line">2     &lt;bean id &#x3D; &quot;car&quot; class&#x3D;&quot;com.test.Car&quot;&gt; </span><br><span class="line">3         &lt;property name&#x3D;&quot;wheel&quot; ref &#x3D; &quot;wheel&quot;&gt;&lt;&#x2F;property&gt; </span><br><span class="line">4     &lt;&#x2F;bean&gt; </span><br><span class="line">5     &lt;bean id &#x3D; &quot;wheel&quot; class&#x3D;&quot;com.test.Wheel&quot;&gt;&lt;&#x2F;bean&gt; </span><br><span class="line">6 &lt;&#x2F;beans&gt;</span><br></pre></td></tr></table></figure>
+
+<p>相当于：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> 1 @Configuration </span><br><span class="line"> 2 public class Conf &#123; </span><br><span class="line"> 3     @Bean </span><br><span class="line"> 4     public Car car() &#123; </span><br><span class="line"> 5         Car car &#x3D; new Car(); </span><br><span class="line"> 6         car.setWheel(wheel()); </span><br><span class="line"> 7         return car; </span><br><span class="line"> 8     &#125;</span><br><span class="line"> 9     </span><br><span class="line">10     @Bean </span><br><span class="line">11     public Wheel wheel() &#123; </span><br><span class="line">12         return new Wheel(); </span><br><span class="line">13     &#125; </span><br><span class="line">14 &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>@Configuration的注解类标识这个类可以使用Spring IoC容器作为bean定义的来源。</p>
+<p>@Bean注解告诉Spring，一个带有@Bean的注解方法将返回一个对象，该对象应该被注册为在Spring应用程序上下文中的bean。</p>
+<p><strong>2、@ComponentScan</strong></p>
+<p>   @ComponentScan这个注解在Spring中很重要，它对应XML配置中的元素，@ComponentScan的功能其实就是自动扫描并加载符合条件的组件（比如@Component和@Repository等）或者bean定义，最终将这些bean定义加载到IoC容器中。</p>
+<p>   我们可以通过basePackages等属性来细粒度的定制@ComponentScan自动扫描的范围，如果不指定，则默认Spring框架实现会从声明@ComponentScan所在类的package进行扫描。</p>
+<p>注：所以SpringBoot的启动类最好是放在root package下，因为默认不指定basePackages。</p>
+<p><strong>3、@EnableAutoConfiguration</strong></p>
+<p>  个人感觉@EnableAutoConfiguration这个Annotation最为重要，所以放在最后来解读，大家是否还记得Spring框架提供的各种名字为@Enable开头的Annotation定义？比如@EnableScheduling、@EnableCaching、@EnableMBeanExport等，@EnableAutoConfiguration的理念和做事方式其实一脉相承，简单概括一下就是，<strong>借助@Import的支持，收集和注册特定场景相关的bean定义。</strong></p>
+<ul>
+<li>@EnableScheduling是通过@Import将Spring调度框架相关的bean定义都加载到IoC容器。</li>
+<li>@EnableMBeanExport是通过@Import将JMX相关的bean定义加载到IoC容器。</li>
+</ul>
+<p>而@EnableAutoConfiguration也是借助@Import的帮助，将所有符合自动配置条件的bean定义加载到IoC容器，仅此而已！</p>
+<p>  @EnableAutoConfiguration会根据类路径中的jar依赖为项目进行自动配置，如：添加了spring-boot-starter-web依赖，会自动添加Tomcat和Spring MVC的依赖，Spring Boot会对Tomcat和Spring MVC进行自动配置。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171207162607144-677920507.png" alt="img"></p>
+<p> @EnableAutoConfiguration作为一个复合Annotation，其自身定义关键信息如下：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> 1 @SuppressWarnings(&quot;deprecation&quot;)</span><br><span class="line"> 2 @Target(ElementType.TYPE)</span><br><span class="line"> 3 @Retention(RetentionPolicy.RUNTIME)</span><br><span class="line"> 4 @Documented</span><br><span class="line"> 5 @Inherited</span><br><span class="line"> 6 @AutoConfigurationPackage</span><br><span class="line"> 7 @Import(EnableAutoConfigurationImportSelector.class)</span><br><span class="line"> 8 public @interface EnableAutoConfiguration &#123;</span><br><span class="line"> 9     ...</span><br><span class="line">10 &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>  其中，最关键的要属@Import(EnableAutoConfigurationImportSelector.class)，借助EnableAutoConfigurationImportSelector，@EnableAutoConfiguration可以帮助SpringBoot应用将所有符合条件的@Configuration配置都加载到当前SpringBoot创建并使用的IoC容器。就像一只“八爪鱼”一样，借助于Spring框架原有的一个工具类：SpringFactoriesLoader的支持，@EnableAutoConfiguration可以智能的自动配置功效才得以大功告成！</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171207163759488-1739516792.png" alt="img"></p>
+<p><strong>自动配置幕后英雄：SpringFactoriesLoader详解</strong></p>
+<p>SpringFactoriesLoader属于Spring框架私有的一种扩展方案，其主要功能就是从指定的配置文件META-INF/spring.factories加载配置。</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> 1 public abstract class SpringFactoriesLoader &#123;</span><br><span class="line"> 2     &#x2F;&#x2F;...</span><br><span class="line"> 3     public static &lt;T&gt; List&lt;T&gt; loadFactories(Class&lt;T&gt; factoryClass, ClassLoader classLoader) &#123;</span><br><span class="line"> 4         ...</span><br><span class="line"> 5     &#125;</span><br><span class="line"> 6 </span><br><span class="line"> 7 </span><br><span class="line"> 8     public static List&lt;String&gt; loadFactoryNames(Class&lt;?&gt; factoryClass, ClassLoader classLoader) &#123;</span><br><span class="line"> 9         ....</span><br><span class="line">10     &#125;</span><br><span class="line">11 &#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>配合@EnableAutoConfiguration使用的话，它更多是提供一种配置查找的功能支持，即根据@EnableAutoConfiguration的完整类名org.springframework.boot.autoconfigure.EnableAutoConfiguration作为查找的Key，获取对应的一组@Configuration类。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171208161556484-1145877030.jpg" alt="img"></p>
+<p>上图就是从SpringBoot的autoconfigure依赖包中的META-INF/spring.factories配置文件中摘录的一段内容，可以很好地说明问题。</p>
+<p>所以，@EnableAutoConfiguration自动配置的魔法骑士就变成了：<strong>从classpath中搜寻所有的META-INF/spring.factories配置文件，并将其中org.springframework.boot.autoconfigure.EnableutoConfiguration对应的配置项通过反射（Java Refletion）实例化为对应的标注了@Configuration的JavaConfig形式的IoC容器配置类，然后汇总为一个并加载到IoC容器。</strong></p>
+<p><strong>二、深入探索SpringApplication执行流程</strong></p>
+<p>SpringApplication的run方法的实现是我们本次旅程的主要线路，该方法的主要流程大体可以归纳如下：</p>
+<p>1） 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情：</p>
+<ul>
+<li>根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。</li>
+<li>使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。</li>
+<li>推断并设置main方法的定义类。</li>
+</ul>
+<p>2） SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过SpringFactoriesLoader可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，“嘿，SpringBoot应用要开始执行咯！”。</p>
+<p>3） 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。</p>
+<p>4） 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：“当前SpringBoot应用使用的Environment准备好了咯！”。</p>
+<p>5） 如果SpringApplication的showBanner属性被设置为true，则打印banner。</p>
+<p>6） 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成，然后根据条件决定是否添加ShutdownHook，决定是否使用自定义的BeanNameGenerator，决定是否使用自定义的ResourceLoader，当然，最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。</p>
+<p>7） ApplicationContext创建好之后，SpringApplication会再次借助Spring-FactoriesLoader，查找并加载classpath中所有可用的ApplicationContext-Initializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。</p>
+<p>8） 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。</p>
+<p>9） 最核心的一步，将之前通过@EnableAutoConfiguration获取的所有配置以及其他形式的IoC容器配置加载到已经准备完毕的ApplicationContext。</p>
+<p>10） 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。</p>
+<p>11） 调用ApplicationContext的refresh()方法，完成IoC容器可用的最后一道工序。</p>
+<p>12） 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。</p>
+<p>13） 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理）</p>
+<p>去除事件通知点后，整个流程如下：</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171212151321051-993064506.jpg" alt="img"></p>
+<hr>
+<p>本文以调试一个实际的SpringBoot启动程序为例，参考流程中主要类类图，来分析其启动逻辑和自动化配置原理。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213142128051-351399772.png" alt="img"></p>
+<p><strong>总览：</strong>   </p>
+<p>  上图为SpringBoot启动结构图，我们发现启动流程主要分为三个部分，第一部分进行SpringApplication的初始化模块，配置一些基本的环境变量、资源、构造器、监听器，第二部分实现了应用具体的启动方案，包括启动流程的监听模块、加载配置环境模块、及核心的创建上下文环境模块，第三部分是自动化配置模块，该模块作为springboot自动配置核心，在后面的分析中会详细讨论。在下面的启动程序中我们会串联起结构中的主要功能。</p>
+<p><strong>启动：</strong></p>
+<p>   每个SpringBoot程序都有一个主入口，也就是main方法，main里面调用SpringApplication.run()启动整个spring-boot程序，该方法所在类需要使用@SpringBootApplication注解，以及@ImportResource注解(if need)，@SpringBootApplication包括三个注解，功能如下：</p>
+<p>@EnableAutoConfiguration：SpringBoot根据应用所声明的依赖来对Spring框架进行自动配置。</p>
+<p>@SpringBootConfiguration(内部为@Configuration)：被标注的类等于在spring的XML配置文件中(applicationContext.xml)，装配所有bean事务，提供了一个spring的上下文环境。</p>
+<p>@ComponentScan：组件扫描，可自动发现和装配Bean，默认扫描SpringApplication的run方法里的Booter.class所在的包路径下文件，所以最好将该启动类放到根包路径下。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213143558363-1466265945.png" alt="img"></p>
+<p><strong>SpringBoot启动类</strong></p>
+<p>首先进入run方法</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213144051754-1827098906.png" alt="img"></p>
+<p>run方法中去创建了一个SpringApplication实例，在该构造方法内，我们可以发现其调用了一个初始化的initialize方法</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213144232926-834887500.png" alt="img"></p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213144259160-129693850.png" alt="img"></p>
+<p>这里主要是为SpringApplication对象赋一些初值。构造函数执行完毕后，我们回到run方法</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213144447066-1033381024.png" alt="img"></p>
+<p>该方法中实现了如下几个关键步骤：</p>
+<p>1.创建了应用的监听器SpringApplicationRunListeners并开始监听</p>
+<p>2.加载SpringBoot配置环境(ConfigurableEnvironment)，如果是通过web容器发布，会加载StandardEnvironment，其最终也是继承了ConfigurableEnvironment，类图如下</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213144808707-1335729370.png" alt="img"></p>
+<p>可以看出，*Environment最终都实现了PropertyResolver接口，我们平时通过environment对象获取配置文件中指定Key对应的value方法时，就是调用了propertyResolver接口的getProperty方法</p>
+<p>3.配置环境(Environment)加入到监听器对象中(SpringApplicationRunListeners)</p>
+<p>4.创建run方法的返回对象：ConfigurableApplicationContext(应用配置上下文)，我们可以看一下创建方法：</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213145353394-1416082242.png" alt="img"></p>
+<p>方法会先获取显式设置的应用上下文(applicationContextClass)，如果不存在，再加载默认的环境配置（通过是否是web environment判断），默认选择AnnotationConfigApplicationContext注解上下文（通过扫描所有注解类来加载bean），最后通过BeanUtils实例化上下文对象，并返回。</p>
+<p>ConfigurableApplicationContext类图如下：</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213154313488-1411301156.png" alt="img"></p>
+<p>主要看其继承的两个方向：</p>
+<p>LifeCycle：生命周期类，定义了start启动、stop结束、isRunning是否运行中等生命周期空值方法</p>
+<p>ApplicationContext：应用上下文类，其主要继承了beanFactory(bean的工厂类)</p>
+<p>5.回到run方法内，prepareContext方法将listeners、environment、applicationArguments、banner等重要组件与上下文对象关联</p>
+<p>6.接下来的refreshContext(context)方法(初始化方法如下)将是实现spring-boot-starter-*(mybatis、redis等)自动化配置的关键，包括spring.factories的加载，bean的实例化等核心工作。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171213154943754-336827902.png" alt="img"></p>
+<p>   配置结束后，Springboot做了一些基本的收尾工作，返回了应用环境上下文。回顾整体流程，Springboot的启动，主要创建了配置环境(environment)、事件监听(listeners)、应用上下文(applicationContext)，并基于以上条件，在容器中开始实例化我们需要的Bean，至此，通过SpringBoot启动的程序已经构造完成，接下来我们来探讨自动化配置是如何实现。</p>
+<hr>
+<p><strong>自动化配置：</strong></p>
+<p>之前的启动结构图中，我们注意到无论是应用初始化还是具体的执行过程，都调用了SpringBoot自动配置模块。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219161544990-1859845219.png" alt="img"></p>
+<p>SpringBoot自动配置模块</p>
+<p>  该配置模块的主要使用到了SpringFactoriesLoader，即Spring工厂加载器，该对象提供了loadFactoryNames方法，入参为factoryClass和classLoader，即需要传入上图中的工厂类名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即spring.factories文件，传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类，所以文件中一般为如下图这种一对多的类名集合，获取到这些实现类的类名后，loadFactoryNames方法返回类名集合，方法调用方得到这些集合后，再通过反射获取这些类的类对象、构造方法，最终生成实例。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219162725615-751500087.png" alt="img"></p>
+<p>工厂接口与其若干实现类接口名称</p>
+<p>下图有助于我们形象理解自动配置流程。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219162844787-1104034109.png" alt="img"></p>
+<p>SpringBoot自动化配置关键组件关系图 </p>
+<p>  mybatis-spring-boot-starter、spring-boot-starter-web等组件的META-INF文件下均含有spring.factories文件，自动配置模块中，SpringFactoriesLoader收集到文件中的类全名并返回一个类全名的数组，返回的类全名通过反射被实例化，就形成了具体的工厂实例，工厂实例来生成组件具体需要的bean。</p>
+<p>之前我们提到了EnableAutoConfiguration注解，其类图如下：</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219163356100-1697141132.png" alt="img"></p>
+<p>可以发现其最终实现了ImportSelector(选择器)和BeanClassLoaderAware(bean类加载器中间件)，重点关注一下AutoConfigurationImportSelector的selectImports方法。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219163452318-1362759499.png" alt="img"></p>
+<p>  该方法在springboot启动流程——bean实例化前被执行，返回要实例化的类信息列表。我们知道，如果获取到类信息，spring自然可以通过类加载器将类加载到jvm中，现在我们已经通过spring-boot的starter依赖方式依赖了我们需要的组件，那么这些组建的类信息在select方法中也是可以被获取到的，不要急我们继续向下分析。</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219164025334-1624354890.png" alt="img"></p>
+<p>该方法中的getCandidateConfigurations方法，通过方法注释了解到，其返回一个自动配置类的类名列表，方法调用了loadFactoryNames方法，查看该方法</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219164224912-643901744.png" alt="img"></p>
+<p>  在上面的代码可以看到自动配置器会根据传入的factoryClass.getName()到项目系统路径下所有的spring.factories文件中找到相应的key，从而加载里面的类。我们就选取这个mybatis-spring-boot-autoconfigure下的spring.factories文件</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219164557240-1466961312.png" alt="img"></p>
+<p>进入org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration中，主要看一下类头：</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171219164818162-646159475.png" alt="img"></p>
+<p>发现Spring的@Configuration，俨然是一个通过注解标注的springBean，继续向下看，</p>
+<p>@ConditionalOnClass({ SqlSessionFactory.class, SqlSessionFactoryBean.class})这个注解的意思是：当存在SqlSessionFactory.class, SqlSessionFactoryBean.class这两个类时才解析MybatisAutoConfiguration配置类，否则不解析这一个配置类，make sence，我们需要mybatis为我们返回会话对象，就必须有会话工厂相关类。</p>
+<p>@CondtionalOnBean(DataSource.class)：只有处理已经被声明为bean的dataSource。</p>
+<p>@ConditionalOnMissingBean(MapperFactoryBean.class)这个注解的意思是如果容器中不存在name指定的bean则创建bean注入，否则不执行（该类源码较长，篇幅限制不全粘贴）</p>
+<p>   以上配置可以保证sqlSessionFactory、sqlSessionTemplate、dataSource等mybatis所需的组件均可被自动配置，@Configuration注解已经提供了Spring的上下文环境，所以以上组件的配置方式与Spring启动时通过mybatis.xml文件进行配置起到一个效果。通过分析我们可以发现，只要一个基于SpringBoot项目的类路径下存在SqlSessionFactory.class, SqlSessionFactoryBean.class，并且容器中已经注册了dataSourceBean，就可以触发自动化配置，意思说我们只要在maven的项目中加入了mybatis所需要的若干依赖，就可以触发自动配置，但引入mybatis原生依赖的话，每集成一个功能都要去修改其自动化配置类，那就得不到开箱即用的效果了。所以Spring-boot为我们提供了统一的starter可以直接配置好相关的类，触发自动配置所需的依赖(mybatis)如下：</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171220160748068-2010633643.png" alt="img"></p>
+<p>这里是截取的mybatis-spring-boot-starter的源码中pom.xml文件中所有依赖：</p>
+<p><img src="https://images2017.cnblogs.com/blog/249993/201712/249993-20171220160934240-319846263.png" alt="img"></p>
+<p> 因为maven依赖的传递性，我们只要依赖starter就可以依赖到所有需要自动配置的类，实现开箱即用的功能。也体现出Springboot简化了Spring框架带来的大量XML配置以及复杂的依赖管理，让开发人员可以更加关注业务逻辑的开发。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">chentao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://somunstao.github.io/2020/05/03/SpringBoot21%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86/">https://somunstao.github.io/2020/05/03/SpringBoot21：启动原理/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://SomunsTao.github.io" target="_blank">Somuns ` Tao</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpringBoot/">SpringBoot</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/05/03/SpringBoot21%EF%BC%9A%20%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpringBoot：自动配置解析</div></div></a></div><div class="next-post pull_right"><a href="/2020/03/30/SpringBoot20%EF%BC%9A%E5%B0%8F%E6%80%BB%E7%BB%93/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SpringBoot：小总结</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/03/03/SpringBoot03：yaml配置注入/" title="SpringBoot03：yaml配置注入"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-03</div><div class="relatedPosts_title">SpringBoot03：yaml配置注入</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/02/SpringBoot02：运行原理初探/" title="SpringBoot02：运行原理初探"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-02</div><div class="relatedPosts_title">SpringBoot02：运行原理初探</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/04/SpringBoot04：JSR303数据校验及多环境切换/" title="SpringBoot04：JSR303数据校验及多环境切换"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-04</div><div class="relatedPosts_title">SpringBoot04：JSR303数据校验及多环境切换</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/05/SpringBoot05：自动配置原理/" title="SpringBoot05：自动配置原理"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-05</div><div class="relatedPosts_title">SpringBoot05：自动配置原理</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/06/SpringBoot06：自定义starter/" title="SpringBoot06：自定义starter"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-06</div><div class="relatedPosts_title">SpringBoot06：自定义starter</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/08/SpringBoot08：整合Druid/" title="SpringBoot08：整合Druid"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-08</div><div class="relatedPosts_title">SpringBoot08：整合Druid</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="lv-container" data-id="city" data-uid="MTAyMC80OTk1Ni8yNjQ0Nw=="><script>(function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By chentao</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">簡</a><i class="darkmode far fa-moon" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script defer id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/click_heart.js"></script></body></html>
