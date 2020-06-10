@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spring：Spring系列之bean的使用 | Somuns ` Tao</title><meta name="description" content="Spring"><meta name="keywords" content="spring"><meta name="author" content="chentao"><meta name="copyright" content="chentao"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Spring：Spring系列之bean的使用"><meta name="twitter:description" content="Spring"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Spring：Spring系列之bean的使用"><meta property="og:url" content="https://somunstao.github.io/2020/03/22/Spring%E7%B3%BB%E5%88%97%E4%B9%8Bbean%E7%9A%84%E4%BD%BF%E7%94%A8/"><meta property="og:site_name" content="Somuns ` Tao"><meta property="og:description" content="Spring"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-03-21T16:00:00.000Z"><meta property="article:modified_time" content="2020-06-09T14:56:33.808Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://somunstao.github.io/2020/03/22/Spring%E7%B3%BB%E5%88%97%E4%B9%8Bbean%E7%9A%84%E4%BD%BF%E7%94%A8/"><link rel="prev" title="Spring：Spring系列之beanFactory和ApplicationContext" href="https://somunstao.github.io/2020/03/22/Spring%E7%B3%BB%E5%88%97%E4%B9%8BBeanFactoryHE%20applicationContext/"><link rel="next" title="Vue 01：前端体系、前后端分离" href="https://somunstao.github.io/2020/03/22/Vue%2001%EF%BC%9A%E5%89%8D%E7%AB%AF%E4%BD%93%E7%B3%BB%E3%80%81%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: true,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Somuns ` Tao" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">71</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">8</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#"><span class="toc-number">1.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring系列之bean的使用"><span class="toc-number">2.</span> <span class="toc-text">Spring系列之bean的使用</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Somuns ` Tao</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Spring：Spring系列之bean的使用</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-03-22 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-03-22</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-06-09 22:56:33"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-06-09</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Spring/">Spring</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id=""><a href="#" class="headerlink" title=""></a><img src="http://java.tedu.cn/upload/20180306/20180306104159_146.jpg" alt="img"></h1><p>原文链接：<a href="https://www.cnblogs.com/xiaoxi/p/5850095.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiaoxi/p/5850095.html</a></p>
+<p>原作者：平凡希</p>
+<hr>
+<hr>
+<h1 id="Spring系列之bean的使用"><a href="#Spring系列之bean的使用" class="headerlink" title="Spring系列之bean的使用"></a><a href="https://www.cnblogs.com/xiaoxi/p/5850095.html" target="_blank" rel="noopener">Spring系列之bean的使用</a></h1><p><strong>一、Bean的定义</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;userDao&quot; class&#x3D;&quot;com.dev.spring.simple.MemoryUserDao&quot;&#x2F;&gt;</span><br><span class="line">这是一个最简单的 Bean 定义。它类似于调用了语句：</span><br><span class="line">MemoryUserDao userDao &#x3D; new MemoryUserDao()。</span><br></pre></td></tr></table></figure>
+
+<p>id属性必须是一个有效的 XML ID,这意味着它在整个 XML 文档中必须唯一。它是一个 Bean 的“终身代号”。同时你也可以用 name 属性为 Bean 定义一个或多个别名（用逗号或空格分开多个别名）。name 属性允许出现任意非法的 XML 字母。例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;userDao&quot; name&#x3D;&quot;userDao*_1, userDao*_2&quot; class&#x3D;&quot;com.dev.spring.simple.MemoryUserDao&quot;&#x2F;&gt;。</span><br></pre></td></tr></table></figure>
+
+<p>class属性定义了这个 Bean 的全限定类名（包名＋类名）。Spring 能管理几乎所有的 Java 类。一般情况，这个 Java 类会有一个默认的构造函数，用set方法设置依赖的属性。</p>
+<p>Bean 元素出了上面的两个属性之外，还有很多其它属性。说明如下：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean</span><br><span class="line">    id&#x3D;&quot;beanId&quot;（1）</span><br><span class="line">    name&#x3D;&quot;beanName&quot;（2）</span><br><span class="line">    class&#x3D;&quot;beanClass&quot;（3）</span><br><span class="line">    parent&#x3D;&quot;parentBean&quot;（4）</span><br><span class="line">    abstract&#x3D;&quot;true | false&quot;（5）</span><br><span class="line">    singleton&#x3D;&quot;true | false&quot;（6）</span><br><span class="line">    lazy-init&#x3D;&quot;true | false | default&quot;（7）</span><br><span class="line">    autowire&#x3D;&quot;no | byName | byType | constructor | autodetect | default&quot;（8）</span><br><span class="line">    dependency-check &#x3D; &quot;none | objects | simple | all | default&quot;（9）</span><br><span class="line">    depends-on&#x3D;&quot;dependsOnBean&quot;（10）</span><br><span class="line">    init-method&#x3D;&quot;method&quot;（11）</span><br><span class="line">    destroy-method&#x3D;&quot;method&quot;（12）</span><br><span class="line">    factory-method&#x3D;&quot;method&quot;（13）</span><br><span class="line">    factory-bean&#x3D;&quot;bean&quot;&gt;（14）</span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p> （1）id: Bean 的唯一标识名。它必须是合法的 XML ID，在整个 XML 文档中唯一。</p>
+<p>（2）name: 用来为 id 创建一个或多个别名。它可以是任意的字母符合。多个别名之间用逗号或空格分开。</p>
+<p>（3）class: 用来定义类的全限定名（包名＋类名）。只有子类 Bean 不用定义该属性。</p>
+<p>（4）parent: 子类 Bean 定义它所引用它的父类 Bean。这时前面的 class 属性失效。子类 Bean 会继承父类 Bean 的所有属性，子类 Bean 也可以覆盖父类 Bean 的属性。注意：子类 Bean 和父类 Bean 是同一个 Java 类。</p>
+<p>（5）abstract（默认为”false”）：用来定义 Bean 是否为抽象 Bean。它表示这个 Bean 将不会被实例化，一般用于父类 Bean，因为父类 Bean 主要是供子类 Bean 继承使用。</p>
+<p>（6）singleton（默认为“true”）：定义 Bean 是否是 Singleton（单例）。如果设为“true”,则在 BeanFactory 作用范围内，只维护此 Bean 的一个实例。如果设为“flase”，Bean将是 Prototype（原型）状态，BeanFactory 将为每次 Bean 请求创建一个新的 Bean 实例。</p>
+<p>（7）lazy-init（默认为“default”）：用来定义这个 Bean 是否实现懒初始化。如果为“true”，它将在 BeanFactory 启动时初始化所有的 Singleton Bean。反之，如果为“false”,它只在 Bean 请求时才开始创建 Singleton Bean。</p>
+<p>（8）autowire（自动装配，默认为”default”）：它定义了 Bean 的自动装载方式。<br>“no”：不使用自动装配功能。<br>“byName”：通过 Bean 的属性名实现自动装配。<br>“byType”：通过 Bean 的类型实现自动装配。<br>“constructor”：类似于 byType，但它是用于构造函数的参数的自动组装。<br>“autodetect”：通过 Bean 类的反省机制（introspection）决定是使用“constructor”还是使用“byType”。</p>
+<p>（9）dependency-check（依赖检查，默认为“default”）：它用来确保 Bean 组件通过 JavaBean 描述的所以依赖关系都得到满足。在与自动装配功能一起使用时，它特别有用。<br>none：不进行依赖检查。<br>objects：只做对象间依赖的检查。<br>simple：只做原始类型和 String 类型依赖的检查<br>all：对所有类型的依赖进行检查。它包括了前面的 objects 和 simple。</p>
+<p>（10）depends-on（依赖对象）：这个 Bean 在初始化时依赖的对象，这个对象会在这个 Bean 初始化之前创建。</p>
+<p>（11）init-method:用来定义 Bean 的初始化方法，它会在 Bean 组装之后调用。它必须是一个无参数的方法。</p>
+<p>（12）destroy-method：用来定义 Bean 的销毁方法，它在 BeanFactory 关闭时调用。同样，它也必须是一个无参数的方法。它只能应用于singleton Bean。</p>
+<p>（13）factory-method：定义创建该 Bean 对象的工厂方法。它用于下面的”factory-bean”，表示这个 Bean 是通过工厂方法创建。此时，”class”属性失效。</p>
+<p>（14）factory-bean:定义创建该 Bean 对象的工厂类。如果使用了”factory-bean”则”class”属性失效。</p>
+<p><strong>二、实例化Bean的三种方式</strong></p>
+<p><strong>1.使用构造器实例化Bean</strong></p>
+<p>这是最简单的方式，Spring IOC容器即能使用默认空构造器也能使用有参数构造器两种方式创建Bean。<br>使用空构造器进行定义，class属性指定的类必须有空构造器。使用有参数构造器进行定义，可以使用&lt; constructor-arg &gt;标签指定构造器参数值，其中index表示位置，value表示常量值，也可以指定引用，指定引用使用ref来引用另一个Bean定义，后边会详细介绍。下面来看一个例子：</p>
+<p>（1）定义一个接口</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com.spring.service;</span><br><span class="line"></span><br><span class="line">public interface IUserService &#123;</span><br><span class="line">    public void show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> （2）实现类，该类有一个空构造器和一个有参构造器：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com.spring.service.impl;</span><br><span class="line"></span><br><span class="line">import com.spring.service.IUserService;</span><br><span class="line"></span><br><span class="line">public class UserServiceImpl implements IUserService&#123;</span><br><span class="line">    </span><br><span class="line">    private String message;</span><br><span class="line">    </span><br><span class="line">    public UserServiceImpl()&#123;</span><br><span class="line">        this.message&#x3D;&quot;lixiaoxi&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public UserServiceImpl(String message)&#123;</span><br><span class="line">        this.message&#x3D;message;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public void show()&#123;</span><br><span class="line">        System.out.println(&quot;hello,&quot;+message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>（3）在配置文件（applicationContext1.xml）中配置Bean定义，如下所示：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用默认构造函数 --&gt;</span><br><span class="line">&lt;bean id&#x3D;&quot;bean1&quot; class&#x3D;&quot;com.spring.service.impl.UserServiceImpl&quot;&gt;  &lt;&#x2F;bean&gt;</span><br><span class="line">    </span><br><span class="line">&lt;!-- 使用有参数构造函数 --&gt;</span><br><span class="line">&lt;bean id&#x3D;&quot;bean2&quot; class&#x3D;&quot;com.spring.service.impl.UserServiceImpl&quot; &gt;</span><br><span class="line">    &lt;!-- 指定构造器参数 --&gt;</span><br><span class="line">    &lt;constructor-arg index&#x3D;&quot;0&quot; value&#x3D;&quot;zhangsan&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>（4）测试方法：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 使用构造器实例化Bean</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Test</span><br><span class="line">public void testCreateBeanByConstructor()&#123;</span><br><span class="line">    &#x2F;&#x2F;读取配置文件</span><br><span class="line">    ApplicationContext ctx&#x3D;new ClassPathXmlApplicationContext(&quot;applicationContext1.xml&quot;);</span><br><span class="line">    &#x2F;&#x2F;获取bean的实例</span><br><span class="line">    IUserService bean1&#x3D;(IUserService) ctx.getBean(&quot;bean1&quot;);</span><br><span class="line">    &#x2F;&#x2F;调用方法</span><br><span class="line">    bean1.show();</span><br><span class="line">    </span><br><span class="line">    IUserService bean2&#x3D;(IUserService) ctx.getBean(&quot;bean2&quot;);</span><br><span class="line">    bean2.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>2.使用静态工厂方法实例化Bean</strong></p>
+<p>使用这种方式除了指定必须的class属性，还要指定factory-method属性来指定实例化Bean的方法，而且使用静态工厂方法也允许指定方法参数，spring IoC容器将调用此属性指定的方法来获取Bean。</p>
+<p>（1）定义静态工厂类：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com.spring.factory;</span><br><span class="line"></span><br><span class="line">import com.spring.service.IUserService;</span><br><span class="line">import com.spring.service.impl.UserServiceImpl;</span><br><span class="line"></span><br><span class="line">public class UserStaticFactory &#123;</span><br><span class="line">    &#x2F;&#x2F;工厂方法</span><br><span class="line">    public static IUserService newInstance(String message)&#123;</span><br><span class="line">        &#x2F;&#x2F;返回需要的Bean实例</span><br><span class="line">        return new UserServiceImpl(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>（2）在配置文件（applicationContext1.xml）中配置Bean定义，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用静态工厂方法 --&gt;</span><br><span class="line">&lt;bean id&#x3D;&quot;bean3&quot; class&#x3D;&quot;com.spring.factory.UserStaticFactory&quot; factory-method&#x3D;&quot;newInstance&quot; &gt;</span><br><span class="line">    &lt;constructor-arg index&#x3D;&quot;0&quot; value&#x3D;&quot;lisi&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p>（3）测试方法：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 使用静态工厂实例化Bean</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Test</span><br><span class="line">public void testCreateBeanByStaticFactory()&#123;</span><br><span class="line">    ApplicationContext ctx&#x3D;new ClassPathXmlApplicationContext(&quot;applicationContext1.xml&quot;);</span><br><span class="line">    IUserService bean3&#x3D;(IUserService) ctx.getBean(&quot;bean3&quot;);</span><br><span class="line">    bean3.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>3.使用实例工厂方法实例化Bean</strong></p>
+<p>使用这种方式不能指定class属性，此时必须使用factory-bean属性来指定工厂Bean，factory-method属性指定实例化Bean的方法，而且使用实例工厂方法允许指定方法参数，方式和使用构造器方式一样，配置如下：</p>
+<p>（1）定义实例工厂类：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com.spring.factory;</span><br><span class="line"></span><br><span class="line">import com.spring.service.IUserService;</span><br><span class="line">import com.spring.service.impl.UserServiceImpl;</span><br><span class="line"></span><br><span class="line">public class UserInstanceFactory &#123;</span><br><span class="line">    </span><br><span class="line">    public IUserService newInstance(String message)&#123;</span><br><span class="line">        return new UserServiceImpl(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>（2）在配置文件（applicationContext1.xml）中配置Bean定义，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 1.定义实例工厂Bean --&gt;</span><br><span class="line">&lt;bean id&#x3D;&quot;beanInstanceFactory&quot; class&#x3D;&quot;com.spring.factory.UserInstanceFactory&quot; &#x2F;&gt;</span><br><span class="line">&lt;!-- 2.使用实例工厂Bean创建Bean --&gt;</span><br><span class="line">&lt;bean id&#x3D;&quot;bean4&quot; factory-bean&#x3D;&quot;beanInstanceFactory&quot; factory-method&#x3D;&quot;newInstance&quot; &gt;</span><br><span class="line">     &lt;constructor-arg index&#x3D;&quot;0&quot; value&#x3D;&quot;aaaa&quot;&gt;&lt;&#x2F;constructor-arg&gt;</span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p>（3）测试方法：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 使用实例工厂实例化Bean</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Test</span><br><span class="line">public void testCreateBeanByInstanceFactory()&#123;</span><br><span class="line">    ApplicationContext ctx&#x3D;new ClassPathXmlApplicationContext(&quot;applicationContext1.xml&quot;);</span><br><span class="line">    IUserService bean4&#x3D;(IUserService) ctx.getBean(&quot;bean4&quot;);</span><br><span class="line">    bean4.show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><strong>总结：</strong></p>
+<p>这三种方式只是配置不一样，从获取方式看完全一样，没有任何不同。这也是Spring IoC的魅力，Spring IoC帮你创建Bean，我们只管使用就可以了，是不是很简单。</p>
+<p><strong>三、Bean的作用域</strong></p>
+<p> 什么是作用域呢？即“scope”，在面向对象程序设计中一般指对象或变量之间的可见范围。而在Spring容器中是指其创建的Bean对象相对于其他Bean对象的请求可见范围。<br>Spring提供“singleton”和“prototype”两种基本作用域，另外提供“request”、“session”、“globalsession”三种web作用域；Spring还允许用户定制自己的作用域。</p>
+<table>
+<thead>
+<tr>
+<th>作用域</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>singleton</td>
+<td>在每个Spring IoC容器中一个bean定义对应一个对象实例。（默认）在spring IOC容器中仅存在一个Bean实例,Bean以单实例的方式存在。</td>
+</tr>
+<tr>
+<td>prototype</td>
+<td>一个bean定义对应多个对象实例。每次从容器中调用Bean时,都返回一个新的实例,即每次调用getBean()时,相当于执行new XxxBean()的操作。</td>
+</tr>
+<tr>
+<td>request</td>
+<td>在一次HTTP请求中，一个bean定义对应一个实例；即每次HTTP请求将会有各自的bean实例，它们依据某个bean定义创建而成。该作用域仅在基于web的Spring <code>ApplicationContext</code>情形下有效。</td>
+</tr>
+<tr>
+<td>session</td>
+<td>在一个HTTP <code>Session</code>中，一个bean定义对应一个实例。该作用域仅在基于web的Spring <code>ApplicationContext</code>情形下有效。同一个HTTP session共享一个Bean,不同HTTP session使用不同的Bean,该作用域仅适用于webApplicationContext环境。</td>
+</tr>
+<tr>
+<td>globalSession</td>
+<td>在一个全局的HTTP <code>Session</code>中，一个bean定义对应一个实例。典型情况下，仅在使用portlet context的时候有效。该作用域仅在基于web的Spring <code>ApplicationContext</code>情形下有效。</td>
+</tr>
+</tbody></table>
+<p> <strong>1.singleton</strong><br>“singleton”作用域的Bean只会在每个Spring IoC容器中存在一个实例，而且其完整生命周期完全由Spring容器管理。对于所有获取该Bean的操作Spring容器将只返回同一个Bean。注意:spring将Bean的默认作用域定为singleton。</p>
+<p>当一个bean的作用域设置为singleton, 那么Spring IOC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例。换言之，当把 一个bean定义设置为singleton作用域时，Spring IOC容器只会创建该bean定义的唯一实例。这个单一实例会被存储到单例缓存（singleton cache）中，并且所有针对该bean的后续请求和引用都将返回被缓存的对象实例，这里要注意的是singleton作用域和GOF设计模式中的单例是完全不同的，单例设计模式表示一个ClassLoader中只有一个class存在，而这里的singleton则表示一个容器对应一个bean，也就是说当一个bean被标识为singleton时候，spring的IOC容器中只会存在一个该bean。</p>
+<p>在默认情况下,spring的ApplicationContext容器在启动时,自动实例化所有singleton的Bean并缓存于容器中。<br>虽然启动时会花费一些时间,但带来两个好处:<br>(1)首先对Bean提前的实例化操作会及早发现一些潜在的配置问题。<br>(2)其次Bean以缓存的方式保存,当运行时使用到该Bean时就无须再实例化了,加快了运行效率。<br>如果用户不希望在容器启动时提前实例化singleton的Bean,可以通过lazy-init属性进行控制。但是lazy-init=”true”的Bean在某些情况下依旧会提前实例化:如果该Bean被其它需要提前实例化的Bean引用到,spring也将忽略延迟实例化的设置。</p>
+<p><strong>2.prototype</strong></p>
+<p>即原型，指每次向Spring容器请求获取Bean都返回一个全新的Bean，相对于”singleton”来说就是不缓存Bean，每次都是一个根据Bean定义创建的全新Bean。</p>
+<p>当使用prorotype作为作用域时，Bean会导致每次对该Bean的请求都创建一个Bean实例，所以对有状态的Bean应该使用prorotype作用域，无状态Bean 则使用singleton作用域。还有就是Spring不能对一个prototype作用域 bean的整个生命周期负责，容器在初始化、配置、装饰或者是装配完一个prototype实例后，将它交给客户端，随后就对该prototype实例不闻不问了。</p>
+<p>在默认情况下,spring容器在启动时不实例化prototype的Bean。此外,spring容器将prototype的Bean交给调用者后,就不再管理它的生命周期。</p>
+<p>下面测试一下singleton与prototype，Java类用之前建的HelloWorld.java。</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com.spring.test;</span><br><span class="line"></span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">    private String info;</span><br><span class="line"></span><br><span class="line">    public String getInfo() &#123;</span><br><span class="line">        return info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setInfo(String info) &#123;</span><br><span class="line">        this.info &#x3D; info;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public HelloWorld()&#123;</span><br><span class="line">        System.out.println(&quot;执行构造函数！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>配置文件applicationContext.xml：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;hello&quot; class&#x3D;&quot;com.spring.test.HelloWorld&quot;&gt;  </span><br><span class="line">    &lt;property name&#x3D;&quot;info&quot; value&#x3D;&quot;Hello,This is my first Spring Application!&quot;&gt;&lt;&#x2F;property&gt;  </span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其中id为”hello”的bean声明为singleton（因为默认是singleton，所以可以不显示指定）<br>测试方法如下：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 测试Bean的作用域</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Test</span><br><span class="line">public void test()&#123;</span><br><span class="line">    &#x2F;&#x2F;读取配置文件</span><br><span class="line">    ApplicationContext ctx&#x3D;new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);</span><br><span class="line">    &#x2F;&#x2F;获取bean的实例</span><br><span class="line">    HelloWorld t&#x3D;(HelloWorld) ctx.getBean(&quot;hello&quot;);</span><br><span class="line">    HelloWorld t1&#x3D;(HelloWorld) ctx.getBean(&quot;hello&quot;);</span><br><span class="line">    System.out.println(t&#x3D;&#x3D;t1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>执行结果为：</p>
+<p><img src="https://images2015.cnblogs.com/blog/249993/201609/249993-20160909140752551-653373142.png" alt="img"></p>
+<p>可以看到只打印了一次“执行构造函数！”，并且t=t1，说明它们是同一对象。</p>
+<p>修改配置文件，将id为”hello”的bean的scope属性改为”prototype”。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;hello&quot; class&#x3D;&quot;com.spring.test.HelloWorld&quot; scope&#x3D;&quot;prototype&quot;&gt;  </span><br><span class="line">    &lt;property name&#x3D;&quot;info&quot; value&#x3D;&quot;Hello,This is my first Spring Application!&quot;&gt;&lt;&#x2F;property&gt;  </span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+<p>再次执行上面的测试方法，结果如下：</p>
+<p><img src="https://images2015.cnblogs.com/blog/249993/201609/249993-20160909141543238-1852638183.png" alt="img"></p>
+<p>打印了两次“执行构造函数！”，并且t!=t1。</p>
+<p><strong>3.web应用中的作用域</strong></p>
+<p>在Web应用中，我们可能需要将数据存储到request、session、global session。因此Spring提供了三种Web作用域：request、session、globalSession。</p>
+<p><strong>（1）request作用域</strong>：<strong>request表示针对每一次HTTP请求都会产生一个新的bean，同时该bean仅在当前HTTP request内有效。</strong>示例：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;loginAction&quot; class&#x3D;&quot;com.foo.LoginAction&quot; scope&#x3D;&quot;request&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 针对每次HTTP请求，Spring容器会根据loginAction bean定义创建一个全新的LoginAction bean实例， 且该loginAction bean实例仅在当前HTTP request内有效，因此可以根据需要放心的更改所建实例的内部状态， 而其他请求中根据loginAction bean定义创建的实例，将不会看到这些特定于某个请求的状态变化。 当处理请求结束，request作用域的bean实例将被销毁。</p>
+<p><strong>（2）session作用域：针对每个会话，spring容器都会创建一个全新的Bean，且该Bean仅在当前HTTP Session内有效。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;userPreferences&quot; class&#x3D;&quot;com.foo.UserPreferences&quot; scope&#x3D;&quot;session&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>针对某个HTTP <code>Session</code>，Spring容器会根据<code>userPreferences</code> bean定义创建一个全新的<code>userPreferences</code> bean实例， 且该<code>userPreferences</code> bean仅在当前HTTP <code>Session</code>内有效。 与<code>request作用域</code>一样，你可以根据需要放心的更改所创建实例的内部状态，而别的HTTP <code>Session</code>中根据<code>userPreferences</code>创建的实例，将不会看到这些特定于某个HTTP <code>Session</code>的状态变化。 当HTTP <code>Session</code>最终被废弃的时候，在该HTTP <code>Session</code>作用域内的bean也会被废弃掉。</p>
+<p><strong>（3）globalSession作用域：类似于session作用域，只是其用于portlet环境的web应用。如果在非portlet环境将视为session作用域。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id&#x3D;&quot;userPreferences&quot; class&#x3D;&quot;com.foo.UserPreferences&quot; scope&#x3D;&quot;globalSession&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>global session</code>作用域类似于标准的HTTP <code>Session</code>作用域，不过它仅仅在基于portlet的web应用中才有意义。Portlet规范定义了全局<code>Session</code>的概念，它被所有构成某个portlet web应用的各种不同的portlet所共享。在<code>global session</code>作用域中定义的bean被限定于全局portlet <code>Session</code>的生命周期范围内。</p>
+<p>请注意，假如你在编写一个标准的基于Servlet的web应用，并且定义了一个或多个具有<code>global session</code>作用域的bean，系统会使用标准的HTTP <code>Session</code>作用域，并且不会引起任何错误。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">chentao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://somunstao.github.io/2020/03/22/Spring%E7%B3%BB%E5%88%97%E4%B9%8Bbean%E7%9A%84%E4%BD%BF%E7%94%A8/">https://somunstao.github.io/2020/03/22/Spring系列之bean的使用/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://SomunsTao.github.io" target="_blank">Somuns ` Tao</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring/">Spring</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/03/22/Spring%E7%B3%BB%E5%88%97%E4%B9%8BBeanFactoryHE%20applicationContext/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring：Spring系列之beanFactory和ApplicationContext</div></div></a></div><div class="next-post pull_right"><a href="/2020/03/22/Vue%2001%EF%BC%9A%E5%89%8D%E7%AB%AF%E4%BD%93%E7%B3%BB%E3%80%81%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue 01：前端体系、前后端分离</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/03/11/Spring 01：概述、IOC理论/" title="Spring 01：概述、IOC理论"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-11</div><div class="relatedPosts_title">Spring 01：概述、IOC理论</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/12/Spring 02：第一个程序、对象创建方式、配置说明/" title="Spring 02：第一个程序、对象创建方式、配置说明.（DI）"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-12</div><div class="relatedPosts_title">Spring 02：第一个程序、对象创建方式、配置说明.（DI）</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/13/Spring 03：依赖注入（DI）/" title="Spring 03：依赖注入（DI）"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-13</div><div class="relatedPosts_title">Spring 03：依赖注入（DI）</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/14/Spring 04：自动装配/" title="Spring 04：自动装配"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-14</div><div class="relatedPosts_title">Spring 04：自动装配</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/15/Spring 05：注解开发/" title="Spring 05：注解开发"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-15</div><div class="relatedPosts_title">Spring 05：注解开发</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/16/Spring 06：代理模式/" title="Spring 06：代理模式"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-16</div><div class="relatedPosts_title">Spring 06：代理模式</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="lv-container" data-id="city" data-uid="MTAyMC80OTk1Ni8yNjQ0Nw=="><script>(function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By chentao</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">簡</a><i class="darkmode far fa-moon" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script defer id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/click_heart.js"></script></body></html>
