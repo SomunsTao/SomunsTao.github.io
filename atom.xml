@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Somuns ` Tao</title>
   
-  <subtitle>java blog</subtitle>
+  <subtitle>Java Blog</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://somunstao.github.io/"/>
@@ -10,7 +10,7 @@
   <id>https://somunstao.github.io/</id>
   
   <author>
-    <name>chentao</name>
+    <name>陈涛</name>
     
   </author>
   
