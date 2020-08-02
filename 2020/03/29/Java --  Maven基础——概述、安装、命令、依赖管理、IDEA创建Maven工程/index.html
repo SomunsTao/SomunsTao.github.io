@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java -- Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程 | Somuns ` Tao</title><meta name="description" content="Maven"><meta name="keywords" content="Java"><meta name="author" content="陈涛"><meta name="copyright" content="陈涛"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Java -- Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程"><meta name="twitter:description" content="Maven"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Java -- Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程"><meta property="og:url" content="https://somunstao.github.io/2020/03/29/Java%20--%20%20Maven%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%A6%82%E8%BF%B0%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E5%91%BD%E4%BB%A4%E3%80%81%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%E3%80%81IDEA%E5%88%9B%E5%BB%BAMaven%E5%B7%A5%E7%A8%8B/"><meta property="og:site_name" content="Somuns ` Tao"><meta property="og:description" content="Maven"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-03-28T16:00:00.000Z"><meta property="article:modified_time" content="2020-08-02T07:31:53.779Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://somunstao.github.io/2020/03/29/Java%20--%20%20Maven%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%A6%82%E8%BF%B0%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E5%91%BD%E4%BB%A4%E3%80%81%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%E3%80%81IDEA%E5%88%9B%E5%BB%BAMaven%E5%B7%A5%E7%A8%8B/"><link rel="prev" title="SpringBoot：雷神笔记" href="https://somunstao.github.io/2020/03/30/SpringBoot22%EF%BC%9A%E9%9B%B7%E7%A5%9E%E7%AC%94%E8%AE%B0(%E5%88%9D%E7%BA%A7)/"><link rel="next" title="Java -- Lambda表达式及函数式接口" href="https://somunstao.github.io/2020/03/26/Java%20--%20Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8F%8A%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: true,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Somuns ` Tao" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">127</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程"><span class="toc-number">1.</span> <span class="toc-text">Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.1.</span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一、-Maven概述"><span class="toc-number">2.</span> <span class="toc-text">一、 Maven概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-Maven的概念"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 Maven的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-Maven的作用"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 Maven的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-Maven的概念模型"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 Maven的概念模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-Maven的仓库"><span class="toc-number">2.4.</span> <span class="toc-text">1.4 Maven的仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-Maven的坐标"><span class="toc-number">2.5.</span> <span class="toc-text">1.5 Maven的坐标</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、-Maven的安装"><span class="toc-number">3.</span> <span class="toc-text">二、 Maven的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-下载Maven"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 下载Maven</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-安装Maven"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 安装Maven</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-Maven目录介绍"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 Maven目录介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-配置环境变量"><span class="toc-number">3.4.</span> <span class="toc-text">2.4 配置环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-配置本地仓库"><span class="toc-number">3.5.</span> <span class="toc-text">2.5 配置本地仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-1-将软件文件夹中的Repository解压"><span class="toc-number">3.5.1.</span> <span class="toc-text">2.5.1 将软件文件夹中的Repository解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-2-配置本地仓库"><span class="toc-number">3.5.2.</span> <span class="toc-text">2.5.2 配置本地仓库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-测试Maven安装成功"><span class="toc-number">3.6.</span> <span class="toc-text">2.6 测试Maven安装成功</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、-IDEA创建Maven工程"><span class="toc-number">4.</span> <span class="toc-text">三、 IDEA创建Maven工程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-IDEA指定本地Maven"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 IDEA指定本地Maven</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-创建java工程"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 创建java工程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-创建java工程"><span class="toc-number">4.2.1.</span> <span class="toc-text">3.2.1 创建java工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-java工程目录结构"><span class="toc-number">4.2.2.</span> <span class="toc-text">3.2.2 java工程目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-3-编写Hello-World！"><span class="toc-number">4.2.3.</span> <span class="toc-text">3.2.3 编写Hello World！</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-创建javaweb工程"><span class="toc-number">4.3.</span> <span class="toc-text">3.3 创建javaweb工程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-1-创建javaweb工程"><span class="toc-number">4.3.1.</span> <span class="toc-text">3.3.1 创建javaweb工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-2-发布javaweb工程"><span class="toc-number">4.3.2.</span> <span class="toc-text">3.3.2 发布javaweb工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-3-浏览器访问效果"><span class="toc-number">4.3.3.</span> <span class="toc-text">3.3.3 浏览器访问效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-4-Maven创建javaweb工程的目录结构"><span class="toc-number">4.3.4.</span> <span class="toc-text">3.3.4 Maven创建javaweb工程的目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#创建自定义JavaWeb工程"><span class="toc-number">4.3.4.0.1.</span> <span class="toc-text">创建自定义JavaWeb工程</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、-Maven的常用命令"><span class="toc-number">5.</span> <span class="toc-text">四、 Maven的常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-clean命令"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 clean命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-complie命令"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 complie命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-test命令"><span class="toc-number">5.3.</span> <span class="toc-text">4.3 test命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-package命令"><span class="toc-number">5.4.</span> <span class="toc-text">4.4 package命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-install命令"><span class="toc-number">5.5.</span> <span class="toc-text">4.5 install命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、-依赖管理"><span class="toc-number">6.</span> <span class="toc-text">五、 依赖管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-Maven插件"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 Maven插件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-1-JDK编译版本的插件"><span class="toc-number">6.1.1.</span> <span class="toc-text">5.1.1 JDK编译版本的插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-2-Tomcat7服务端的插件"><span class="toc-number">6.1.2.</span> <span class="toc-text">5.1.2 Tomcat7服务端的插件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-导入依赖"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 导入依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-1-导入junit的依赖"><span class="toc-number">6.2.1.</span> <span class="toc-text">5.2.1 导入junit的依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-2-导入servlet的依赖"><span class="toc-number">6.2.2.</span> <span class="toc-text">5.2.2 导入servlet的依赖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-依赖范围"><span class="toc-number">6.3.</span> <span class="toc-text">5.3 依赖范围</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Somuns ` Tao</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Java -- Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-03-29 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-03-29</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-08-02 15:31:53"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-08-02</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程"><a href="#Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程" class="headerlink" title="Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程"></a>Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j1" target="_blank" rel="noopener">Maven概述</a></li>
+<li><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j2" target="_blank" rel="noopener">Maven的安装</a></li>
+<li><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j3" target="_blank" rel="noopener">IDEA创建Maven工程</a></li>
+<li><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j4" target="_blank" rel="noopener">Maven的常用命令</a></li>
+<li><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j5" target="_blank" rel="noopener">Maven的依赖管理</a></li>
+</ul>
+<hr>
+<h1 id="一、-Maven概述"><a href="#一、-Maven概述" class="headerlink" title="一、 Maven概述"></a>一、 Maven概述</h1><h2 id="1-1-Maven的概念"><a href="#1-1-Maven的概念" class="headerlink" title="1.1 Maven的概念"></a>1.1 Maven的概念</h2><p><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j0" target="_blank" rel="noopener">跳转到目录</a><br>Maven是项目进行模型抽象，充分运用的面向对象的思想，Maven可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。Maven 除了以程序构建能力为特色之外，还提供高级项目管理工具。由于 Maven 的缺省构建规则有较高的可重用性，所以常常用两三行 Maven 构建脚本就可以构建简单的项目。</p>
+<h2 id="1-2-Maven的作用"><a href="#1-2-Maven的作用" class="headerlink" title="1.2 Maven的作用"></a>1.2 Maven的作用</h2><ul>
+<li>maven对项目的 <strong>第三方构件（jar包）</strong>进行统一管理。向工程中加入jar包不要手工从其它地方拷贝，通过maven定义jar包的坐标，自动从maven仓库中去下载到工程中。</li>
+<li>maven提供一套对项目生命周期管理的标准，开发人员、和测试人员统一使用maven进行项目构建。项目生命周期管理：编译、测试、打包、部署、运行。</li>
+<li>maven对工程分模块构建，提高开发效率。</li>
+</ul>
+<h2 id="1-3-Maven的概念模型"><a href="#1-3-Maven的概念模型" class="headerlink" title="1.3 Maven的概念模型"></a>1.3 Maven的概念模型</h2><ul>
+<li>项目对象模型 (Project Object Model)。POM对象模型，每个maven工程中都有一个<strong>pom.xml文件，定义工程所依赖的jar包、本工程的坐标、打包运行方式。</strong></li>
+<li>依赖管理系统（基础核心 ）。maven通过坐标对项目工程所依赖的jar包统一规范管理。</li>
+<li>maven定义一套项目生命周期。清理、初始化、编译、测试、报告 、打包、部署、站点生成。</li>
+<li>一组标准集合。maven工程有自己标准的工程目录结构、定义坐标有标准。</li>
+<li>maven 管理项目生命周期过程都是基于插件完成的，例如：开发中使用的tomcat插件。</li>
+</ul>
+<h2 id="1-4-Maven的仓库"><a href="#1-4-Maven的仓库" class="headerlink" title="1.4 Maven的仓库"></a>1.4 Maven的仓库</h2><table>
+<thead>
+<tr>
+<th>仓库名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本地仓库</td>
+<td>相当于缓存，工程第一次会从远程仓库（互联网）去下载jar 包，将jar包存在本地仓库（在程序员的电脑上）。第二次不需要从远程仓库去下载。先从本地仓库找，如果找不到才会去远程仓库找(我们使用的是阿里巴巴的远程仓库)。</td>
+</tr>
+<tr>
+<td>中央仓库</td>
+<td>就是远程仓库，仓库中jar由专业团队（maven团队）统一维护。</td>
+</tr>
+<tr>
+<td>远程仓库</td>
+<td>在公司内部架设一台私服，其它公司架设一台仓库，对外公开。</td>
+</tr>
+</tbody></table>
+<p><img src="https://img-blog.csdnimg.cn/20200210162227236.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-r17N9l9e-1581321895795)(image\1.png)]"></p>
+<h2 id="1-5-Maven的坐标"><a href="#1-5-Maven的坐标" class="headerlink" title="1.5 Maven的坐标"></a>1.5 Maven的坐标</h2><p>Maven的一个核心的作用就是<code>管理项目的依赖</code>，引入我们所需的各种jar包等。为了能自动化的解析任何一个Java构件，Maven必须将这些Jar包或者其他资源进行唯一标识，这是管理项目的依赖的基础，也就是我们要说的坐标。包括我们自己开发的项目，也是要通过坐标进行唯一标识的，这样才能才其它项目中进行依赖引用。坐标的定义元素如下：</p>
+<ul>
+<li>groupId：定义当前Maven项目名称</li>
+<li>artifactId：定义项目模块</li>
+<li>version：定义当前项目的当前版本</li>
+</ul>
+<p>例如：要引入junit的测试jar，只需要在pom.xml配置文件中配置引入junit的坐标即可：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.26<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.0.9.RELEASE/<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">1234567891011</span><br></pre></td></tr></table></figure>
+
+<h1 id="二、-Maven的安装"><a href="#二、-Maven的安装" class="headerlink" title="二、 Maven的安装"></a>二、 Maven的安装</h1><p><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j0" target="_blank" rel="noopener">跳转到目录</a></p>
+<h2 id="2-1-下载Maven"><a href="#2-1-下载Maven" class="headerlink" title="2.1 下载Maven"></a>2.1 下载Maven</h2><ul>
+<li>可以去官网下载</li>
+<li>提供的 apache-maven-3.3.9-bin.zip<br>链接：<a href="https://pan.baidu.com/s/1SdutnwCGcZ-ArTuggP3JUg" target="_blank" rel="noopener">https://pan.baidu.com/s/1SdutnwCGcZ-ArTuggP3JUg</a><br>提取码：zkuo</li>
+</ul>
+<h2 id="2-2-安装Maven"><a href="#2-2-安装Maven" class="headerlink" title="2.2 安装Maven"></a>2.2 安装Maven</h2><p>将Maven压缩包解压，即安装完毕<br><img src="https://img-blog.csdnimg.cn/20200210163206508.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="2-3-Maven目录介绍"><a href="#2-3-Maven目录介绍" class="headerlink" title="2.3 Maven目录介绍"></a>2.3 Maven目录介绍</h2><p><img src="https://img-blog.csdnimg.cn/20200210163226299.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="2-4-配置环境变量"><a href="#2-4-配置环境变量" class="headerlink" title="2.4 配置环境变量"></a>2.4 配置环境变量</h2><p><img src="https://img-blog.csdnimg.cn/2020021016331711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="2-5-配置本地仓库"><a href="#2-5-配置本地仓库" class="headerlink" title="2.5 配置本地仓库"></a>2.5 配置本地仓库</h2><h3 id="2-5-1-将软件文件夹中的Repository解压"><a href="#2-5-1-将软件文件夹中的Repository解压" class="headerlink" title="2.5.1 将软件文件夹中的Repository解压"></a>2.5.1 将软件文件夹中的Repository解压</h3><p><img src="https://img-blog.csdnimg.cn/20200210163342744.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="2-5-2-配置本地仓库"><a href="#2-5-2-配置本地仓库" class="headerlink" title="2.5.2 配置本地仓库"></a>2.5.2 配置本地仓库</h3><p>在maven的安装目录中conf/ settings.xml文件，在这里配置本地仓库</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">settings</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/SETTINGS/1.0.0"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- localRepository</span></span><br><span class="line"><span class="comment">   | The path to the local repository maven will use to store artifacts.</span></span><br><span class="line"><span class="comment">   |</span></span><br><span class="line"><span class="comment">   | Default: $&#123;user.home&#125;/.m2/repository</span></span><br><span class="line"><span class="comment">  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</span></span><br><span class="line"><span class="comment">  --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>C:\develop\maven\apache-maven-3.5.2\repository<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></span><br><span class="line">12345678910</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-测试Maven安装成功"><a href="#2-6-测试Maven安装成功" class="headerlink" title="2.6 测试Maven安装成功"></a>2.6 测试Maven安装成功</h2><p>打开cmd本地控制台，输入<code>mvn -version</code></p>
+<p><img src="https://img-blog.csdnimg.cn/20200210163457580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="三、-IDEA创建Maven工程"><a href="#三、-IDEA创建Maven工程" class="headerlink" title="三、 IDEA创建Maven工程"></a>三、 IDEA创建Maven工程</h1><p><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j0" target="_blank" rel="noopener">跳转到目录</a></p>
+<h2 id="3-1-IDEA指定本地Maven"><a href="#3-1-IDEA指定本地Maven" class="headerlink" title="3.1 IDEA指定本地Maven"></a>3.1 IDEA指定本地Maven</h2><p><img src="https://img-blog.csdnimg.cn/20200210163536677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="3-2-创建java工程"><a href="#3-2-创建java工程" class="headerlink" title="3.2 创建java工程"></a>3.2 创建java工程</h2><h3 id="3-2-1-创建java工程"><a href="#3-2-1-创建java工程" class="headerlink" title="3.2.1 创建java工程"></a>3.2.1 创建java工程</h3><p><img src="https://img-blog.csdnimg.cn/20200210163622355.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200210163631208.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200210163636556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200210163642191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="3-2-2-java工程目录结构"><a href="#3-2-2-java工程目录结构" class="headerlink" title="3.2.2 java工程目录结构"></a>3.2.2 java工程目录结构<img src="https://img-blog.csdnimg.cn/20200210163811736.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></h3><h3 id="3-2-3-编写Hello-World！"><a href="#3-2-3-编写Hello-World！" class="headerlink" title="3.2.3 编写Hello World！"></a>3.2.3 编写Hello World！</h3><p><img src="https://img-blog.csdnimg.cn/20200210163825774.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2020021016383599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200210163909156.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="3-3-创建javaweb工程"><a href="#3-3-创建javaweb工程" class="headerlink" title="3.3 创建javaweb工程"></a>3.3 创建javaweb工程</h2><h3 id="3-3-1-创建javaweb工程"><a href="#3-3-1-创建javaweb工程" class="headerlink" title="3.3.1 创建javaweb工程"></a>3.3.1 创建javaweb工程</h3><ul>
+<li>创建javaweb工程与创建javase工程类似，但在选择<code>Maven骨架</code>时，选择<code>maven-archetype-webapp</code>即可：<br><img src="https://img-blog.csdnimg.cn/20200210163938521.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>创建好的javaweb工程如下：</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210163955264.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>所以，要手动创建一个java目录用于编写java代码：</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210164023949.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>还要将java目录添加为Source Root：</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210164038308.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="3-3-2-发布javaweb工程"><a href="#3-3-2-发布javaweb工程" class="headerlink" title="3.3.2 发布javaweb工程"></a>3.3.2 发布javaweb工程</h3><p><img src="https://img-blog.csdnimg.cn/20200210164123644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="3-3-3-浏览器访问效果"><a href="#3-3-3-浏览器访问效果" class="headerlink" title="3.3.3 浏览器访问效果"></a>3.3.3 浏览器访问效果</h3><p><img src="https://img-blog.csdnimg.cn/20200210164152627.png" alt="在这里插入图片描述"></p>
+<h3 id="3-3-4-Maven创建javaweb工程的目录结构"><a href="#3-3-4-Maven创建javaweb工程的目录结构" class="headerlink" title="3.3.4 Maven创建javaweb工程的目录结构"></a>3.3.4 Maven创建javaweb工程的目录结构</h3><p><img src="https://img-blog.csdnimg.cn/20200210164200149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="创建自定义JavaWeb工程"><a href="#创建自定义JavaWeb工程" class="headerlink" title="创建自定义JavaWeb工程"></a>创建自定义JavaWeb工程</h5><p>上面在创建javaweb工程时，使用的是maven-archetype-webapp骨架，如果不使用骨架，怎样创建一个javaweb工程呢，见下面的讲解：</p>
+<ul>
+<li>创建一个Maven工程，不选择任何骨架</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210164255781.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>填写坐标信息</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/2020021016431324.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>创建web工程信息</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210164320854.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>创建好的javaweb工程的目录结构如下</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210164326550.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="四、-Maven的常用命令"><a href="#四、-Maven的常用命令" class="headerlink" title="四、 Maven的常用命令"></a>四、 Maven的常用命令</h1><p><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j0" target="_blank" rel="noopener">跳转到目录</a></p>
+<h2 id="4-1-clean命令"><a href="#4-1-clean命令" class="headerlink" title="4.1 clean命令"></a>4.1 clean命令</h2><p>清除编译产生的target文件夹内容，可以配合相应命令一起使用，如mvn clean package， mvn clean test</p>
+<p><img src="https://img-blog.csdnimg.cn/20200210164407325.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="4-2-complie命令"><a href="#4-2-complie命令" class="headerlink" title="4.2 complie命令"></a>4.2 complie命令</h2><p>该命令可以对src/main/java目录的下的代码进行编译</p>
+<p><img src="https://img-blog.csdnimg.cn/20200210164444871.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="4-3-test命令"><a href="#4-3-test命令" class="headerlink" title="4.3 test命令"></a>4.3 test命令</h2><p>测试命令,或执行src/test/java/下junit的测试用例</p>
+<ul>
+<li>在src/test/java下创建测试类DemoTest</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210164456949.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>执行test命令测试</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210164510242.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>控制台显示测试结果</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210164520320.png" alt="在这里插入图片描述"></p>
+<h2 id="4-4-package命令"><a href="#4-4-package命令" class="headerlink" title="4.4 package命令"></a>4.4 package命令</h2><p>mvn package，打包项目</p>
+<p><img src="https://img-blog.csdnimg.cn/20200210164530231.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>打包后的项目会在target目录下找到</p>
+<p><img src="https://img-blog.csdnimg.cn/20200210164536792.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="4-5-install命令"><a href="#4-5-install命令" class="headerlink" title="4.5 install命令"></a>4.5 install命令</h2><p>mvn install，打包后将其安装在本地仓库</p>
+<p><img src="https://img-blog.csdnimg.cn/20200210164555213.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>安装完毕后，在本地仓库中可以找到itheima_javase_demo的信息</p>
+<p><img src="https://img-blog.csdnimg.cn/20200210164602226.png" alt="在这里插入图片描述"></p>
+<h1 id="五、-依赖管理"><a href="#五、-依赖管理" class="headerlink" title="五、 依赖管理"></a>五、 依赖管理</h1><p><a href="https://blog.csdn.net/m0_37989980/article/details/104249966#j0" target="_blank" rel="noopener">跳转到目录</a></p>
+<h2 id="5-1-Maven插件"><a href="#5-1-Maven插件" class="headerlink" title="5.1 Maven插件"></a>5.1 Maven插件</h2><p>Maven是一个核心引擎，提供了基本的项目处理能力和建设过程的管理，以及一系列的插件是用来执行实际建设任务。maven插件可以完成一些特定的功能。例如，集成jdk插件可以方便的修改项目的编译环境；集成tomcat插件后，无需安装tomcat服务器就可以运行tomcat进行项目的发布与测试。在<code>pom.xml中通过plugin标签</code>引入maven的功能插件。</p>
+<h3 id="5-1-1-JDK编译版本的插件"><a href="#5-1-1-JDK编译版本的插件" class="headerlink" title="5.1.1 JDK编译版本的插件"></a>5.1.1 JDK编译版本的插件</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- jdk版本插件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">encoding</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">showWarnings</span>&gt;</span>true<span class="tag">&lt;/<span class="name">showWarnings</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">123456789101112</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-2-Tomcat7服务端的插件"><a href="#5-1-2-Tomcat7服务端的插件" class="headerlink" title="5.1.2 Tomcat7服务端的插件"></a>5.1.2 Tomcat7服务端的插件</h3><ul>
+<li>配置tomcat7插件</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- tomcat7插件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat7-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">port</span>&gt;</span>8080<span class="tag">&lt;/<span class="name">port</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">server</span>&gt;</span>tomcat7<span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">12345678910</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行tomcat7插件</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/2020021016531892.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li><p>tomcat插件注意问题</p>
+<p>Maven的中央仓库中只有Tomcat7.X版本的插件，而之前我们使用的是8.X的版本，如果想使用Tomcat8.X的插件可以去其他第三方仓库进行寻找，或者使用IDEA集成外部Tomcat8极其以上版本，进行项目的发布。</p>
+</li>
+</ul>
+<h2 id="5-2-导入依赖"><a href="#5-2-导入依赖" class="headerlink" title="5.2 导入依赖"></a>5.2 导入依赖</h2><p>maven仓库: <a href="https://mvnrepository.com/" target="_blank" rel="noopener">https://mvnrepository.com/</a><br>导入依赖坐标，无需手动导入jar包就可以引入jar。在pom.xml中使用``标签引入依赖。</p>
+<h3 id="5-2-1-导入junit的依赖"><a href="#5-2-1-导入junit的依赖" class="headerlink" title="5.2.1 导入junit的依赖"></a>5.2.1 导入junit的依赖</h3><ul>
+<li>导入junit坐标依赖</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">123456</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进行单元测试</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test running..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="number">12345678</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-2-导入servlet的依赖"><a href="#5-2-2-导入servlet的依赖" class="headerlink" title="5.2.2 导入servlet的依赖"></a>5.2.2 导入servlet的依赖</h3><ul>
+<li>创建Servlet，但是发现报错，原因是没有导入Servlet的坐标依赖</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210165512698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>导入Servlet的坐标依赖</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">12345</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>原有报错的Servlet恢复正常</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200210165522667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="5-3-依赖范围"><a href="#5-3-依赖范围" class="headerlink" title="5.3 依赖范围"></a>5.3 依赖范围</h2><p><img src="https://img-blog.csdnimg.cn/20200210165529340.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTg5OTgw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li><p>compile 编译、测试、运行，A在编译时依赖B，并且在测试和运行时也依赖</p>
+<p>例如：strus-core、spring-beans。打到war包或jar包</p>
+</li>
+<li><p>provided 编译、和测试有效，A在编译和测试时需要B</p>
+<p>例如：servlet-api就是编译和测试有用，在运行时不用（tomcat容器已提供）</p>
+<p>不会打到war</p>
+</li>
+<li><p>runtime：测试、运行有效</p>
+<p>例如：jdbc驱动包 ，在开发代码中针对java的jdbc接口开发，编译不用</p>
+<p>在运行和测试时需要通过jdbc驱动包（mysql驱动）连接数据库，需要的</p>
+<p>会打到war</p>
+</li>
+<li><p>test：只是测试有效，只在单元测试类中用</p>
+<p>例如：junit</p>
+<p>不会打到war</p>
+</li>
+<li><p>按照依赖强度，由强到弱来排序：(理解)</p>
+<p><strong>compile&gt; provided&gt; runtime&gt; test</strong></p>
+</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">陈涛</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://somunstao.github.io/2020/03/29/Java%20--%20%20Maven%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E6%A6%82%E8%BF%B0%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E5%91%BD%E4%BB%A4%E3%80%81%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%E3%80%81IDEA%E5%88%9B%E5%BB%BAMaven%E5%B7%A5%E7%A8%8B/">https://somunstao.github.io/2020/03/29/Java --  Maven基础——概述、安装、命令、依赖管理、IDEA创建Maven工程/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://SomunsTao.github.io" target="_blank">Somuns ` Tao</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/03/30/SpringBoot22%EF%BC%9A%E9%9B%B7%E7%A5%9E%E7%AC%94%E8%AE%B0(%E5%88%9D%E7%BA%A7)/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpringBoot：雷神笔记</div></div></a></div><div class="next-post pull_right"><a href="/2020/03/26/Java%20--%20Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8F%8A%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java -- Lambda表达式及函数式接口</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/03/21/Java --    String类    —概述、String的性质、内存解析、常用API/" title="String类    —概述、String的性质、内存解析、常用API"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-21</div><div class="relatedPosts_title">String类    —概述、String的性质、内存解析、常用API</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/21/Java --   线程——创建方式、常用方法、线程安全问题、通信/" title="Java 线程——创建方式、常用方法、线程安全问题、通信"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-21</div><div class="relatedPosts_title">Java 线程——创建方式、常用方法、线程安全问题、通信</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/15/Java --  Dubbo——RPC技术、Zookeeper注册中心、Dubbo的配置/" title="Java -- Dubbo——RPC技术、Zookeeper注册中心、Dubbo的配置"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-15</div><div class="relatedPosts_title">Java -- Dubbo——RPC技术、Zookeeper注册中心、Dubbo的配置</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/01/Java --  Linux/" title="Java -- Linux——概述、基本命令"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-01</div><div class="relatedPosts_title">Java -- Linux——概述、基本命令</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/08/Java --  Git一一IDEA使用Git的详解/" title="Java -- Git一一IDEA使用Git的详解"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-08</div><div class="relatedPosts_title">Java -- Git一一IDEA使用Git的详解</div></div></a></div><div class="relatedPosts_item"><a href="/2020/04/01/Java --  RabbitMQ/" title="Java -- 消息队列-RabbitMQ"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-04-01</div><div class="relatedPosts_title">Java -- 消息队列-RabbitMQ</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="lv-container" data-id="city" data-uid="MTAyMC80OTk1Ni8yNjQ0Nw=="><script>(function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By 陈涛</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">簡</a><i class="darkmode far fa-moon" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script defer id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/click_heart.js"></script></body></html>
