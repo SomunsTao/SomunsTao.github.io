@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SpringBoot11：Web开发静态资源处理 | Somuns ` Tao</title><meta name="description" content="you can &quot;just run&quot;"><meta name="keywords" content="spring"><meta name="author" content="陈涛"><meta name="copyright" content="陈涛"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SpringBoot11：Web开发静态资源处理"><meta name="twitter:description" content="you can &quot;just run&quot;"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="SpringBoot11：Web开发静态资源处理"><meta property="og:url" content="https://somunstao.github.io/2020/03/11/SpringBoot11%EF%BC%9AWeb%E5%BC%80%E5%8F%91%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86/"><meta property="og:site_name" content="Somuns ` Tao"><meta property="og:description" content="you can &quot;just run&quot;"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-03-10T16:00:00.000Z"><meta property="article:modified_time" content="2020-08-02T09:22:06.878Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://somunstao.github.io/2020/03/11/SpringBoot11%EF%BC%9AWeb%E5%BC%80%E5%8F%91%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86/"><link rel="prev" title="Spring Cloud Alibaba学习笔记:1、简介" href="https://somunstao.github.io/2020/03/11/Spring%20Cloud%20Alibaba%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%201%E3%80%81%E7%AE%80%E4%BB%8B/"><link rel="next" title="SpringBoot10：日志框架介绍" href="https://somunstao.github.io/2020/03/10/SpringBoot10%EF%BC%9A%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: true,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Somuns ` Tao" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">145</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">11</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">11</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringBoot11：-Web开发探究"><span class="toc-number">1.</span> <span class="toc-text">SpringBoot11： Web开发探究</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静态资源处理"><span class="toc-number">2.</span> <span class="toc-text">静态资源处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#静态资源映射规则"><span class="toc-number">2.1.</span> <span class="toc-text">静态资源映射规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是webjars-呢？"><span class="toc-number">2.2.</span> <span class="toc-text">什么是webjars 呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二种静态资源映射规则"><span class="toc-number">2.3.</span> <span class="toc-text">第二种静态资源映射规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义静态资源路径"><span class="toc-number">2.4.</span> <span class="toc-text">自定义静态资源路径</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#首页处理"><span class="toc-number">3.</span> <span class="toc-text">首页处理</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Somuns ` Tao</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">SpringBoot11：Web开发静态资源处理</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-03-11 00:00:00"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-03-11</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-08-02 17:22:06"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-08-02</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/SpringBoot/">SpringBoot</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="SpringBoot11：-Web开发探究"><a href="#SpringBoot11：-Web开发探究" class="headerlink" title="SpringBoot11： Web开发探究"></a>SpringBoot11： Web开发探究</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>好的，同学们，那么接下来呢，我们开始学习SpringBoot与Web开发，从这一章往后，就属于我们实战部分的内容了；</p>
+<p>其实SpringBoot的东西用起来非常简单，因为SpringBoot最大的特点就是自动装配。</p>
+<p><strong>使用SpringBoot的步骤：</strong></p>
+<p>1、创建一个SpringBoot应用，选择我们需要的模块，SpringBoot就会默认将我们的需要的模块自动配置好</p>
+<p>2、手动在配置文件中配置部分配置项目就可以运行起来了</p>
+<p>3、专注编写业务代码，不需要考虑以前那样一大堆的配置了。</p>
+<p>要熟悉掌握开发，之前学习的自动配置的原理一定要搞明白！</p>
+<p>比如SpringBoot到底帮我们配置了什么？我们能不能修改？我们能修改哪些配置？我们能不能扩展？</p>
+<ul>
+<li>向容器中自动配置组件 ：*** Autoconfiguration</li>
+<li>自动配置类，封装配置文件的内容：***Properties</li>
+</ul>
+<p>没事就找找类，看看自动装配原理！</p>
+<p>我们之后来进行一个单体项目的小项目测试，让大家能够快速上手开发！</p>
+<h1 id="静态资源处理"><a href="#静态资源处理" class="headerlink" title="静态资源处理"></a>静态资源处理</h1><h2 id="静态资源映射规则"><a href="#静态资源映射规则" class="headerlink" title="静态资源映射规则"></a>静态资源映射规则</h2><p><strong>首先，我们搭建一个普通的SpringBoot项目，回顾一下HelloWorld程序！</strong></p>
+<p>写请求非常简单，那我们要引入我们前端资源，我们项目中有许多的静态资源，比如css，js等文件，这个SpringBoot怎么处理呢？</p>
+<p>如果我们是一个web应用，我们的main下会有一个webapp，我们以前都是将所有的页面导在这里面的，对吧！但是我们现在的pom呢，打包方式是为jar的方式，那么这种方式SpringBoot能不能来给我们写页面呢？当然是可以的，但是SpringBoot对于静态资源放置的位置，是有规定的！</p>
+<p><strong>我们先来聊聊这个静态资源映射规则：</strong></p>
+<p>SpringBoot中，SpringMVC的web配置都在 WebMvcAutoConfiguration 这个配置类里面；</p>
+<p>我们可以去看看 WebMvcAutoConfigurationAdapter 中有很多配置方法；</p>
+<p>有一个方法：addResourceHandlers 添加资源处理</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;</span><br><span class="line">    if (!this.resourceProperties.isAddMappings()) &#123;</span><br><span class="line">        &#x2F;&#x2F; 已禁用默认资源处理</span><br><span class="line">        logger.debug(&quot;Default resource handling disabled&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 缓存控制</span><br><span class="line">    Duration cachePeriod &#x3D; this.resourceProperties.getCache().getPeriod();</span><br><span class="line">    CacheControl cacheControl &#x3D; this.resourceProperties.getCache().getCachecontrol().toHttpCacheControl();</span><br><span class="line">    &#x2F;&#x2F; webjars 配置</span><br><span class="line">    if (!registry.hasMappingForPattern(&quot;&#x2F;webjars&#x2F;**&quot;)) &#123;</span><br><span class="line">        customizeResourceHandlerRegistration(registry.addResourceHandler(&quot;&#x2F;webjars&#x2F;**&quot;)</span><br><span class="line">                                             .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;webjars&#x2F;&quot;)</span><br><span class="line">                                             .setCachePeriod(getSeconds(cachePeriod)).setCacheControl(cacheControl));</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 静态资源配置</span><br><span class="line">    String staticPathPattern &#x3D; this.mvcProperties.getStaticPathPattern();</span><br><span class="line">    if (!registry.hasMappingForPattern(staticPathPattern)) &#123;</span><br><span class="line">        customizeResourceHandlerRegistration(registry.addResourceHandler(staticPathPattern)</span><br><span class="line">                                             .addResourceLocations(getResourceLocations(this.resourceProperties.getStaticLocations()))</span><br><span class="line">                                             .setCachePeriod(getSeconds(cachePeriod)).setCacheControl(cacheControl));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>读一下源代码：比如所有的 /webjars/** ， 都需要去 classpath:/META-INF/resources/webjars/ 找对应的资源；</p>
+<h2 id="什么是webjars-呢？"><a href="#什么是webjars-呢？" class="headerlink" title="什么是webjars 呢？"></a>什么是webjars 呢？</h2><p>Webjars本质就是以jar包的方式引入我们的静态资源 ， 我们以前要导入一个静态资源文件，直接导入即可。</p>
+<p>使用SpringBoot需要使用Webjars，我们可以去搜索一下：</p>
+<p>网站：<a href="https://www.webjars.org" target="_blank" rel="noopener">https://www.webjars.org</a></p>
+<p>要使用jQuery，我们只要要引入jQuery对应版本的pom依赖即可！</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.webjars&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jquery&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.4.1&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>导入完毕，查看webjars目录结构，并访问Jquery.js文件！</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200317124625447-915223066.png" alt="img"></p>
+<p>访问：只要是静态资源，SpringBoot就会去对应的路径寻找资源，我们这里访问：<a href="http://localhost:8080/webjars/jquery/3.4.1/jquery.js" target="_blank" rel="noopener">http://localhost:8080/webjars/jquery/3.4.1/jquery.js</a></p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200317124646310-1681461698.png" alt="img"></p>
+<h2 id="第二种静态资源映射规则"><a href="#第二种静态资源映射规则" class="headerlink" title="第二种静态资源映射规则"></a>第二种静态资源映射规则</h2><p>那我们项目中要是使用自己的静态资源该怎么导入呢？我们看下一行代码；</p>
+<p>我们去找staticPathPattern发现第二种映射规则 ：/** , 访问当前的项目任意资源，它会去找 resourceProperties 这个类，我们可以点进去看一下分析：</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 进入方法</span><br><span class="line">public String[] getStaticLocations() &#123;</span><br><span class="line">    return this.staticLocations;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 找到对应的值</span><br><span class="line">private String[] staticLocations &#x3D; CLASSPATH_RESOURCE_LOCATIONS;</span><br><span class="line">&#x2F;&#x2F; 找到路径</span><br><span class="line">private static final String[] CLASSPATH_RESOURCE_LOCATIONS &#x3D; &#123; </span><br><span class="line">    &quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;&quot;,</span><br><span class="line">  &quot;classpath:&#x2F;resources&#x2F;&quot;, </span><br><span class="line">    &quot;classpath:&#x2F;static&#x2F;&quot;, </span><br><span class="line">    &quot;classpath:&#x2F;public&#x2F;&quot; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>ResourceProperties 可以设置和我们静态资源有关的参数；这里面指向了它会去寻找资源的文件夹，即上面数组的内容。</p>
+<p>所以得出结论，以下四个目录存放的静态资源可以被我们识别：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;&quot;</span><br><span class="line">&quot;classpath:&#x2F;resources&#x2F;&quot;</span><br><span class="line">&quot;classpath:&#x2F;static&#x2F;&quot;</span><br><span class="line">&quot;classpath:&#x2F;public&#x2F;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以在resources根目录下新建对应的文件夹，都可以存放我们的静态文件；</p>
+<p>比如我们访问 <a href="http://localhost:8080/1.js" target="_blank" rel="noopener">http://localhost:8080/1.js</a> , 他就会去这些文件夹中寻找对应的静态资源文件；</p>
+<h2 id="自定义静态资源路径"><a href="#自定义静态资源路径" class="headerlink" title="自定义静态资源路径"></a>自定义静态资源路径</h2><p>我们也可以自己通过配置文件来指定一下，哪些文件夹是需要我们放静态资源文件的，在application.properties中配置；</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spring.resources.static-locations&#x3D;classpath:&#x2F;coding&#x2F;,classpath:&#x2F;kuang&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>一旦自己定义了静态文件夹的路径，原来的自动配置就都会失效了！</p>
+<h1 id="首页处理"><a href="#首页处理" class="headerlink" title="首页处理"></a>首页处理</h1><p>静态资源文件夹说完后，我们继续向下看源码！可以看到一个欢迎页的映射，就是我们的首页！</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Bean</span><br><span class="line">public WelcomePageHandlerMapping welcomePageHandlerMapping(ApplicationContext applicationContext,</span><br><span class="line">                                                           FormattingConversionService mvcConversionService,</span><br><span class="line">                                                           ResourceUrlProvider mvcResourceUrlProvider) &#123;</span><br><span class="line">    WelcomePageHandlerMapping welcomePageHandlerMapping &#x3D; new WelcomePageHandlerMapping(</span><br><span class="line">        new TemplateAvailabilityProviders(applicationContext), applicationContext, getWelcomePage(), &#x2F;&#x2F; getWelcomePage 获得欢迎页</span><br><span class="line">        this.mvcProperties.getStaticPathPattern());</span><br><span class="line">    welcomePageHandlerMapping.setInterceptors(getInterceptors(mvcConversionService, mvcResourceUrlProvider));</span><br><span class="line">    return welcomePageHandlerMapping;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>点进去继续看</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">private Optional&lt;Resource&gt; getWelcomePage() &#123;</span><br><span class="line">    String[] locations &#x3D; getResourceLocations(this.resourceProperties.getStaticLocations());</span><br><span class="line">    &#x2F;&#x2F; ::是java8 中新引入的运算符</span><br><span class="line">    &#x2F;&#x2F; Class::function的时候function是属于Class的，应该是静态方法。</span><br><span class="line">    &#x2F;&#x2F; this::function的funtion是属于这个对象的。</span><br><span class="line">    &#x2F;&#x2F; 简而言之，就是一种语法糖而已，是一种简写</span><br><span class="line">    return Arrays.stream(locations).map(this::getIndexHtml).filter(this::isReadable).findFirst();</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 欢迎页就是一个location下的的 index.html 而已</span><br><span class="line">private Resource getIndexHtml(String location) &#123;</span><br><span class="line">    return this.resourceLoader.getResource(location + &quot;index.html&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>欢迎页，静态资源文件夹下的所有 index.html 页面；被 /** 映射。</p>
+<p>比如我访问  <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> ，就会找静态资源文件夹下的 index.html</p>
+<p>新建一个 index.html ，在我们上面的3个目录中任意一个；然后访问测试  <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a>  看结果！</p>
+<p><strong>关于网站图标说明</strong>：</p>
+<p><img src="https://img2020.cnblogs.com/i-beta/1418974/202003/1418974-20200317124825026-594469401.png" alt="img"></p>
+<p>与其他静态资源一样，Spring Boot在配置的静态内容位置中查找 favicon.ico。如果存在这样的文件，它将自动用作应用程序的favicon。</p>
+<p>1、关闭SpringBoot默认图标</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#关闭默认图标</span><br><span class="line">spring.mvc.favicon.enabled&#x3D;false</span><br></pre></td></tr></table></figure>
+
+<p>2、自己放一个图标在静态资源目录下，我放在 public 目录下</p>
+<p>3、清除浏览器缓存！刷新网页，发现图标已经变成自己的了！</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">陈涛</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://somunstao.github.io/2020/03/11/SpringBoot11%EF%BC%9AWeb%E5%BC%80%E5%8F%91%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E5%A4%84%E7%90%86/">https://somunstao.github.io/2020/03/11/SpringBoot11：Web开发静态资源处理/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://SomunsTao.github.io" target="_blank">Somuns ` Tao</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpringBoot/">SpringBoot</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/03/11/Spring%20Cloud%20Alibaba%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%201%E3%80%81%E7%AE%80%E4%BB%8B/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring Cloud Alibaba学习笔记:1、简介</div></div></a></div><div class="next-post pull_right"><a href="/2020/03/10/SpringBoot10%EF%BC%9A%E6%97%A5%E5%BF%97%E6%A1%86%E6%9E%B6%E4%BB%8B%E7%BB%8D/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SpringBoot10：日志框架介绍</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/03/02/SpringBoot02：运行原理初探/" title="SpringBoot02：运行原理初探"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-02</div><div class="relatedPosts_title">SpringBoot02：运行原理初探</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/04/SpringBoot04：starter启动器、SpringBoot自动配置原理、@Conditional、run方法执行流程图/" title="SpringBoot04：starter启动器、SpringBoot自动配置原理、@Conditional、run方法执行流程图"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-04</div><div class="relatedPosts_title">SpringBoot04：starter启动器、SpringBoot自动配置原理、@Conditional、run方法执行流程图</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/05/SpringBoot05：自动配置原理/" title="SpringBoot05：自动配置原理"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-05</div><div class="relatedPosts_title">SpringBoot05：自动配置原理</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/03/SpringBoot03：SpringBoot配置文件、yaml语法、JSR303校验、多环境切换Profile/" title="SpringBoot03：SpringBoot配置文件、yaml语法、JSR303校验、多环境切换Profile"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-03</div><div class="relatedPosts_title">SpringBoot03：SpringBoot配置文件、yaml语法、JSR303校验、多环境切换Profile</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/06/SpringBoot06：自定义starter/" title="SpringBoot06：自定义starter"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-06</div><div class="relatedPosts_title">SpringBoot06：自定义starter</div></div></a></div><div class="relatedPosts_item"><a href="/2020/03/09/SpringBoot09：SpringMVC自动配置原理/" title="SpringBoot09：SpringMVC自动配置原理"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-03-09</div><div class="relatedPosts_title">SpringBoot09：SpringMVC自动配置原理</div></div></a></div></div><div class="clear_both"></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="lv-container" data-id="city" data-uid="MTAyMC80OTk1Ni8yNjQ0Nw=="><script>(function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By 陈涛</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">簡</a><i class="darkmode far fa-moon" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script defer id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="/js/third-party/click_heart.js"></script></body></html>
