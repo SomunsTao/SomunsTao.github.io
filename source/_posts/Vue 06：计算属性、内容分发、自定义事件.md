@@ -1,6 +1,6 @@
 ---
 title: Vue 06：计算属性、内容分发、自定义事件
-date: 2020-3-22
+date: 2020-4-16
 tags: Vue
 categories: Vue
 keywords: Vue

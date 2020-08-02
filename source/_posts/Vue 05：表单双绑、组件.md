@@ -1,6 +1,6 @@
 ---
 title: Vue 05：表单双绑、组件
-date: 2020-3-22
+date: 2020-4-15
 tags: Vue
 categories: Vue
 keywords: Vue
@@ -12,8 +12,6 @@ comments: true
 ​	
 
 # Vue：表单双绑、组件
-
-2019-10-23 / [前端](https://blog.kuangstudy.com/index.php/category/qianduan/) / [狂神说](https://blog.kuangstudy.com/index.php/author/1/)位置： [Home](https://blog.kuangstudy.com/) » [前端](https://blog.kuangstudy.com/index.php/category/qianduan/) » [本页](https://blog.kuangstudy.com/index.php/archives/587/)
 
 ## 什么是双向数据绑定
 

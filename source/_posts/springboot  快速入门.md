@@ -1,3 +1,13 @@
+---
+title: springboot快速入门
+date: 2020-02-28 
+tags: SpringBoot
+categories: SpringBoot
+keywords: spring
+description: you can "just run"
+---
+
+
 # 0.学习目标
 
 - 了解SpringBoot的作用

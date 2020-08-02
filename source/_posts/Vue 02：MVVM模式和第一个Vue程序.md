@@ -1,6 +1,6 @@
 ---
 title: Vue 02：MVVM模式和第一个Vue程序
-date: 2020-3-22
+date: 2020-4-12
 tags: Vue
 categories: Vue
 keywords: Vue

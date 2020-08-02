@@ -1,6 +1,6 @@
 ---
 title: Vue 03：基础语法
-date: 2020-3-22
+date: 2020-4-13
 tags: Vue
 categories: Vue
 keywords: Vue
@@ -12,8 +12,6 @@ comments: true
 ​	
 
 # Vue：基础语法
-
-2019-10-22 / [前端](https://blog.kuangstudy.com/index.php/category/qianduan/) / [狂神说](https://blog.kuangstudy.com/index.php/author/1/)位置： [Home](https://blog.kuangstudy.com/) » [前端](https://blog.kuangstudy.com/index.php/category/qianduan/) » [本页](https://blog.kuangstudy.com/index.php/archives/585/)
 
 ## v-bind
 
