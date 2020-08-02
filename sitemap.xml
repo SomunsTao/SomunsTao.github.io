@@ -2,6 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://somunstao.github.io/2020/03/06/Spring%20Data%20JPA%2006%E2%80%94%E2%80%94%E5%A4%9A%E8%A1%A8%E8%AE%BE%E8%AE%A1%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/</loc>
+    
+    <lastmod>2020-08-02T09:51:42.534Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://somunstao.github.io/2020/04/05/Spring%20Data%20JPA%2005%E2%80%94%E2%80%94Specifications%E5%8A%A8%E6%80%81%E6%9F%A5%E8%AF%A2/</loc>
+    
+    <lastmod>2020-08-02T09:51:32.936Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://somunstao.github.io/2020/04/04/Spring%20Data%20JPA%2004%E2%80%94%E2%80%94%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90%E3%80%81Spring%20Data%20JPA%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%9F%A5%E8%AF%A2%E6%96%B9%E5%BC%8F/</loc>
+    
+    <lastmod>2020-08-02T09:51:23.067Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://somunstao.github.io/2020/04/03/Spring%20Data%20JPA%2003%E2%80%94%E2%80%94%E6%A6%82%E8%BF%B0%E3%80%81Spring%20Data%20JPA%E7%9A%84CRUD%E6%93%8D%E4%BD%9C/</loc>
+    
+    <lastmod>2020-08-02T09:51:11.666Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://somunstao.github.io/2020/04/01/Spring%20Data%20JPA%2001%EF%BC%9AJPA%E2%80%94%E2%80%94ORM%E6%A6%82%E8%BF%B0%E3%80%81JPA%E5%85%A5%E9%97%A8/</loc>
+    
+    <lastmod>2020-08-02T09:51:03.479Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://somunstao.github.io/2020/04/02/Spring%20Data%20JPA%2002%EF%BC%9AJPA%E2%80%94%E2%80%94API%E4%BB%8B%E7%BB%8D%E3%80%81%E5%AE%8C%E6%88%90JPA%E7%9A%84CRUD%E6%93%8D%E4%BD%9C%E3%80%81JPQL%E5%AE%8C%E6%88%90%E5%A4%8D%E6%9D%82%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/</loc>
+    
+    <lastmod>2020-08-02T09:50:58.381Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://somunstao.github.io/2020/03/04/SpringBoot04%EF%BC%9Astarter%E5%90%AF%E5%8A%A8%E5%99%A8%E3%80%81SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86%E3%80%81@Conditional%E3%80%81run%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%9B%BE/</loc>
+    
+    <lastmod>2020-08-02T09:48:30.370Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://somunstao.github.io/2020/03/22/SpringBoot22%E2%80%94%E2%80%94SpringBoot%E6%95%B4%E5%90%88RabbitMQ/</loc>
     
     <lastmod>2020-08-02T09:37:46.392Z</lastmod>
@@ -110,13 +159,6 @@
     <loc>https://somunstao.github.io/2020/03/09/SpringBoot09%EF%BC%9ASpringMVC%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/</loc>
     
     <lastmod>2020-08-02T09:17:28.237Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://somunstao.github.io/2020/03/04/SpringBoot04%EF%BC%9Astarter%E5%90%AF%E5%8A%A8%E5%99%A8%E3%80%81SpringBoot%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86%E3%80%81@Conditional%E3%80%81run%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%9B%BE/</loc>
-    
-    <lastmod>2020-08-02T09:14:03.966Z</lastmod>
     
   </url>
   
