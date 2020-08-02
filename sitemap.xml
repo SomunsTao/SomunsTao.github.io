@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://somunstao.github.io/2020/02/19/MyBatis%2006%EF%BC%9A%E7%BC%93%E5%AD%98/</loc>
+    
+    <lastmod>2020-08-02T07:56:32.812Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://somunstao.github.io/2020/04/05/Java%20--%20%20RabbitMQ/</loc>
     
     <lastmod>2020-08-02T07:53:30.846Z</lastmod>
@@ -184,13 +191,6 @@
   </url>
   
   <url>
-    <loc>https://somunstao.github.io/2020/02/17/MyBatis%2006%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/</loc>
-    
-    <lastmod>2020-08-02T07:02:41.682Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://somunstao.github.io/2020/03/22/Java%20--%20%E6%9E%9A%E4%B8%BE%E7%B1%BB/</loc>
     
     <lastmod>2020-08-02T07:02:29.033Z</lastmod>
@@ -208,13 +208,6 @@
     <loc>https://somunstao.github.io/2020/02/17/MyBatis%2007%EF%BC%9AMyBatis%20Generator%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8(%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3)/</loc>
     
     <lastmod>2020-08-02T06:55:44.003Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://somunstao.github.io/2020/02/19/MyBatis%2006%EF%BC%9A%E7%BC%93%E5%AD%98/</loc>
-    
-    <lastmod>2020-08-02T06:54:05.510Z</lastmod>
     
   </url>
   
