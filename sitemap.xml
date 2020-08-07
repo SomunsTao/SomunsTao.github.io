@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://somunstao.github.io/2020/04/09/Springcloud-Alibaba%20%E3%80%96%E4%B9%9D%E3%80%97Hystrix%E7%AF%87%20%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7,%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD,%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81,%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2/</loc>
+    
+    <lastmod>2020-08-07T06:25:27.418Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://somunstao.github.io/2020/04/06/Spring%20Data%20JPA%2006%E2%80%94%E2%80%94%E5%A4%9A%E8%A1%A8%E8%AE%BE%E8%AE%A1%E3%80%81%E4%B8%80%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E5%AF%B9%E5%A4%9A%E3%80%81%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/</loc>
     
     <lastmod>2020-08-02T09:58:38.147Z</lastmod>
@@ -628,13 +635,6 @@
     <loc>https://somunstao.github.io/2020/03/22/Spring%E5%B8%B8%E8%A7%81%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
     
     <lastmod>2020-08-02T06:25:42.129Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://somunstao.github.io/2020/03/09/Springcloud-Alibaba%20%E3%80%96%E4%B9%9D%E3%80%97Hystrix%E7%AF%87%20%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7,%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD,%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81,%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2/</loc>
-    
-    <lastmod>2020-08-02T05:03:11.210Z</lastmod>
     
   </url>
   
